@@ -2,8 +2,6 @@ package com.lms.backend.model;
 
 import java.time.LocalDateTime;
 // import java.util.List;
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -16,7 +14,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 /**
  * Book
  */
@@ -28,7 +25,7 @@ import lombok.Setter;
 @Builder
 public class Book {
     @Id
-    private UUID bookId;
+    private String bookId;
     private String bookName;
     private String author;
     private String description;
