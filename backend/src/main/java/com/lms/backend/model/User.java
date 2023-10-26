@@ -30,7 +30,7 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private String refferenceNumber;
+    private String referenceNumber;
     private UserRole userRole;
     private UserStatus userStatus;
     private String profilePic;
