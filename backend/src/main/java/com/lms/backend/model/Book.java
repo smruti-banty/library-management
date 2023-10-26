@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import com.lms.backend.constants.BookStatus;
 
@@ -34,6 +36,7 @@ public class Book {
     private String referenceNumber;
     // private List<Batch> batch;
     private int availableStock;
+    @Field(targetType = FieldType.STRING)
     private BookStatus status;
     private LocalDateTime createdDate;
     private String createdBy;
