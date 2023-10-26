@@ -9,7 +9,7 @@ public interface BookService {
 
     Book updateBook(Book book, String bookId);
 
-    Book deleteBook(Book book, String bookId);
+    Book deleteBook(String bookId);
 
     List<Book> getBooks();
 
