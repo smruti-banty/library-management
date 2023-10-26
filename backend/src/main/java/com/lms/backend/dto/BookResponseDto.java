@@ -3,7 +3,6 @@ package com.lms.backend.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
 import com.lms.backend.constants.BookStatus;
 
 public record BookResponseDto(
