@@ -25,7 +25,7 @@ import lombok.Setter;
 @Builder
 public class User {
     @Id
-    private int userId;
+    private String userId;
     private String firstName;
     private String lastName;
     private String email;
