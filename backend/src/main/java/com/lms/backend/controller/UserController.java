@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/admins")
-    @ResponseStatus(HttpStatus.OK)
+
     public List<User> getAdmins() {
         return userService.getAdmins();
     }
