@@ -52,7 +52,7 @@ public class BookServiceImpl implements BookService {
     public Book deleteBook(Book book, String bookId) {
         var oldBook = bookRepository.findById(bookId).orElseThrow();
 
-        oldBook.setStatus(BookStatus.DEACTIVE);
+        oldBook.setStatus(BookStatus.INACTIVE);
         oldBook.setUpdatedDate(LocalDateTime.now());
 
         bookRepository.save(oldBook);
@@ -70,8 +70,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getAllDeactiveBooks() {
-        return bookRepository.findAllByStatus(BookStatus.DEACTIVE);
+    public List<Book> getAllInactiveBooks() {
+        return bookRepository.findAllByStatus(BookStatus.INACTIVE);
     }
 
     @Override
