@@ -31,7 +31,7 @@ public class Notification {
     @Field(targetType = FieldType.STRING)
     private NotificationStateStatus state;
     private String senderUserId;
-    private String reciverUserId;
+    private String receiverUserId;
     private LocalDateTime createdDate;
     private String createdBy;
     private LocalDateTime updatedDate;
