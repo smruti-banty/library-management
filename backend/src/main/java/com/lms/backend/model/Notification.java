@@ -24,7 +24,7 @@ import lombok.Setter;
 @Builder
 public class Notification {
     @Id
-    private String id;
+    private String notificationId;
     private String message;
     @Field(targetType = FieldType.STRING)
     private NotificationStatus status;
