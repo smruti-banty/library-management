@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book deleteBook(Book book, String bookId) {
+    public Book deleteBook(String bookId) {
         var oldBook = bookRepository.findById(bookId).orElseThrow();
 
         oldBook.setStatus(BookStatus.INACTIVE);
