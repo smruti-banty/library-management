@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
+import com.lms.backend.constants.NotificationStateStatus;
 import com.lms.backend.constants.NotificationStatus;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Notification {
     private String message;
     @Field(targetType = FieldType.STRING)
     private NotificationStatus status;
+    private NotificationStateStatus state;
     private String senderUserId;
     private String reciverUserId;
     private LocalDateTime createdDate;
