@@ -20,4 +20,6 @@ public interface UserService {
     User getUserById(String userId);
 
     User getUserByReferenceNumber(String referenceNumber);
+
+    User approveUser(String userId);
 }
