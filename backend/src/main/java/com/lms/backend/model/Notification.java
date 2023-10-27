@@ -28,6 +28,7 @@ public class Notification {
     private String message;
     @Field(targetType = FieldType.STRING)
     private NotificationStatus status;
+    @Field(targetType = FieldType.STRING)
     private NotificationStateStatus state;
     private String senderUserId;
     private String reciverUserId;
