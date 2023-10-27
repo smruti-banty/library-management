@@ -43,6 +43,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{userId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public User deleteUser(@PathVariable String userId) {
         return userService.deleteUser(userId);
     }
@@ -53,7 +54,6 @@ public class UserController {
     }
 
     @GetMapping("/admins")
-
     public List<User> getAdmins() {
         return userService.getAdmins();
     }
