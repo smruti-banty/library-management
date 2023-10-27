@@ -26,10 +26,13 @@ public class NotificationImpl implements NotificationService {
     }
 
     @Override
-    public void markAsRead() {
+    public void markAsRead(String notificationId) {
         List<Notification> allNotifications = notificationRepository.findAll();
         allNotifications.forEach(notification -> {
-            notification.setStatus(NotificationStatus.READ);
+            if (notification.getNotificationId() == notificationId) {
+                notification.setStatus(NotificationStatus.READ);
+                notificationRepository.save(notification);
+            }
             notificationRepository.save(notification);
         });
     }

@@ -7,7 +7,7 @@ import com.lms.backend.model.Notification;
 public interface NotificationService {
     Notification sendNotification(Notification notification);
 
-    void markAsRead();
+    void markAsRead(String notificationId);
 
     List<Notification> getAllNotification();
 
