@@ -37,6 +37,7 @@ public class BookController {
     }
 
     @PutMapping("/{bookId}")
+    @ResponseStatus(code = HttpStatus.OK)
     public Book updateBook(@RequestBody BookRequestDto dto, @PathVariable String bookId) {
         var book = new Book();
         BeanUtils.copyProperties(dto, book);
@@ -44,6 +45,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{bookId}")
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
     public Book deleteBook(@PathVariable String bookId) {
         return bookService.deleteBook(bookId);
     }
@@ -64,6 +66,7 @@ public class BookController {
     }
 
     @PatchMapping("/{bookId}/stock")
+    @ResponseStatus(code = HttpStatus.OK)
     public Book updateStock(@PathVariable String bookId, @RequestParam int stock) {
         return bookService.updateStock(bookId, stock);
     }
