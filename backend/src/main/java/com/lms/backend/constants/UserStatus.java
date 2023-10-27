@@ -2,6 +2,6 @@ package com.lms.backend.constants;
 
 public enum UserStatus {
     ACTIVE,
-    DEACTIVE,
+    INACTIVE,
     PENDING_APPROVAL
 }

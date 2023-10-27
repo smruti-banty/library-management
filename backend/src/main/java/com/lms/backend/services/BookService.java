@@ -15,7 +15,7 @@ public interface BookService {
 
     List<Book> getAllActiveBooks();
 
-    List<Book> getAllDeactiveBooks();
+    List<Book> getAllInactiveBooks();
 
     Book updateStock(String bookId, int stock);
 }
