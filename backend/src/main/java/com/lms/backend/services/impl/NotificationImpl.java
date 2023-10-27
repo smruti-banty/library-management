@@ -26,14 +26,15 @@ public class NotificationImpl implements NotificationService {
     }
 
     @Override
-    public void markAsRead(String notificationId) {
-        String reciverUserId = notificationRepository.findById(notificationId).get().getReciverUserId();
-        List<Notification> allNotification = notificationRepository.findByReciverUserId(reciverUserId);
+    public void markAsRead(String receiverId) {
+        var notifications = notificationRepository.findByReceiverUserIdAndStatus(receiverId, NotificationStatus.UNREAD);
 
-        allNotification.forEach(notification -> {
+        var lists = notifications.stream().map(notification -> {
             notification.setStatus(NotificationStatus.READ);
-            notificationRepository.save(notification);
-        });
+            return notification;
+        }).toList();
+
+        notificationRepository.saveAll(lists);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class NotificationImpl implements NotificationService {
     public Notification deleteNotification(String notificationId) {
         var oldNotification = notificationRepository.findById(notificationId).orElseThrow();
 
-        oldNotification.setState(NotificationStateStatus.DEACTIVE);
+        oldNotification.setState(NotificationStateStatus.INACTIVE);
         oldNotification.setUpdatedDate(LocalDateTime.now());
 
         notificationRepository.save(oldNotification);
