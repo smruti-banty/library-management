@@ -94,4 +94,11 @@ public class UserServiceImpl implements UserService {
     public User getUserByReferenceNumber(String referenceNumber) {
         return userRepository.findByReferenceNumber(referenceNumber).orElseThrow();
     }
+
+    @Override
+    public User approveUser(String userId) {
+        var user = userRepository.findById(userId).orElseThrow();
+        user.setUserStatus(UserStatus.ACTIVE);
+        return user;
+    }
 }
