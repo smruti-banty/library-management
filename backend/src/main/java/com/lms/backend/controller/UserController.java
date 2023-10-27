@@ -36,7 +36,6 @@ public class UserController {
     }
 
     @PutMapping("/update/{userId}")
-    @ResponseStatus(HttpStatus.OK)
     public User updateUser(@RequestBody UserRequestDto userRequestDto, @PathVariable String userId) {
         var user = new User();
         BeanUtils.copyProperties(userRequestDto, user);
@@ -44,13 +43,11 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{userId}")
-    @ResponseStatus(HttpStatus.OK)
     public User deleteUser(@PathVariable String userId) {
         return userService.deleteUser(userId);
     }
 
     @GetMapping("/users")
-    @ResponseStatus(HttpStatus.OK)
     public List<User> getUsers() {
         return userService.getUsers();
     }
@@ -62,19 +59,16 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @ResponseStatus(HttpStatus.OK)
     public User getUserById(@PathVariable String userId) {
         return userService.getUserById(userId);
     }
 
     @GetMapping("/byReferenceNumber/{referenceNumber}")
-    @ResponseStatus(HttpStatus.OK)
     public User getUserByReferenceNumber(@PathVariable String referenceNumber) {
         return userService.getUserByReferenceNumber(referenceNumber);
     }
 
     @PutMapping("/approve/{userId}")
-    @ResponseStatus(HttpStatus.OK)
     public User approveUser(@PathVariable String userId) {
         return userService.approveUser(userId);
     }
