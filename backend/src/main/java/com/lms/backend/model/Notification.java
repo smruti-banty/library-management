@@ -24,14 +24,14 @@ import lombok.Setter;
 @Builder
 public class Notification {
     @Id
-    private String id;
+    private String notificationId;
     private String message;
     @Field(targetType = FieldType.STRING)
     private NotificationStatus status;
     @Field(targetType = FieldType.STRING)
     private NotificationStateStatus state;
     private String senderUserId;
-    private String reciverUserId;
+    private String receiverUserId;
     private LocalDateTime createdDate;
     private String createdBy;
     private LocalDateTime updatedDate;
