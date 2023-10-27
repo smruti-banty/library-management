@@ -27,12 +27,11 @@ public class NotificationImpl implements NotificationService {
 
     @Override
     public void markAsRead(String notificationId) {
-        List<Notification> allNotifications = notificationRepository.findAll();
-        allNotifications.forEach(notification -> {
-            if (notification.getNotificationId() == notificationId) {
-                notification.setStatus(NotificationStatus.READ);
-                notificationRepository.save(notification);
-            }
+        String reciverUserId = notificationRepository.findById(notificationId).get().getReciverUserId();
+        List<Notification> allNotification = notificationRepository.findByReciverUserId(reciverUserId);
+
+        allNotification.forEach(notification -> {
+            notification.setStatus(NotificationStatus.READ);
             notificationRepository.save(notification);
         });
     }
@@ -43,8 +42,8 @@ public class NotificationImpl implements NotificationService {
     }
 
     @Override
-    public Notification deleteNotification(String id) {
-        var oldNotification = notificationRepository.findById(id).orElseThrow();
+    public Notification deleteNotification(String notificationId) {
+        var oldNotification = notificationRepository.findById(notificationId).orElseThrow();
 
         oldNotification.setState(NotificationStateStatus.DEACTIVE);
         oldNotification.setUpdatedDate(LocalDateTime.now());
