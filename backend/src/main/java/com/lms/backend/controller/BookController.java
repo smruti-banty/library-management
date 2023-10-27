@@ -61,7 +61,7 @@ public class BookController {
 
     @GetMapping("/inactive")
     public List<Book> getAllInactiveBooks() {
-        return bookService.getAllDeactiveBooks();
+        return bookService.getAllInactiveBooks();
     }
 
     @PatchMapping("/{bookId}/stock")
