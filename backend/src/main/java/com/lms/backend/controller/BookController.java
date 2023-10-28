@@ -90,7 +90,7 @@ public class BookController {
     }
 
     @GetMapping("/{bookId}")
-    @Operation(summary = "get book by id", description = "Retrive bokk by book id")
+    @Operation(summary = "Get book by id", description = "Retrive bokk by book id")
     @ApiResponse(responseCode = "200", description = "On successful retrival")
     @ApiResponse(responseCode = "500", description = "Book not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     public Book getBookById(@PathVariable String bookId) {
