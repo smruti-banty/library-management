@@ -11,6 +11,8 @@ public interface BookService {
 
     Book deleteBook(String bookId);
 
+    Book getBookById(String bookId);
+
     List<Book> getBooks();
 
     List<Book> getAllActiveBooks();
