@@ -20,10 +20,10 @@ import lombok.Setter;
 public class BookIssue {
     @Id
     private String bookIssueId;
-    private String liberianUuid;
+    private String adminId;
     private String bookId;
     private String bookRefferenceNumber;
-    private String studentUuid;
+    private String studentId;
     private LocalDateTime createdDate;
     private String createdBy;
     private LocalDateTime updatedDate;
