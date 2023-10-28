@@ -22,7 +22,7 @@ public class BookIssue {
     private String bookIssueId;
     private String adminId;
     private String bookId;
-    private String bookRefferenceNumber;
+    private String bookReferenceNumber;
     private String studentId;
     private LocalDateTime createdDate;
     private String createdBy;
