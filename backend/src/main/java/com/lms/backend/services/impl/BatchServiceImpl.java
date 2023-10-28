@@ -43,7 +43,7 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public List<Batch> getBatchByName(String batchName) {
-        return batchRepository.findByNameContaining(batchName);
+        return batchRepository.findByBatchNameContainingIgnoreCase(batchName);
     }
 
     @Override
