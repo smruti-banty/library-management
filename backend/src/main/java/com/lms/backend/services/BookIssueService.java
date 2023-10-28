@@ -1,5 +1,7 @@
 package com.lms.backend.services;
 
-public interface BookIssueService {
+import com.lms.backend.model.BookIssue;
 
+public interface BookIssueService {
+    BookIssue issueBook(BookIssue bookIssue);
 }
