@@ -7,11 +7,19 @@ import com.lms.backend.model.Batch;
 import com.lms.backend.services.BatchService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,6 +48,8 @@ public class BatchController {
     @GetMapping("/{batchId}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @Operation(summary = "Get batch by id", description = "Retrive a batch by it's batch id")
+    @ApiResponse(responseCode = "200", description = "On successful retrival")
+    @ApiResponse(responseCode = "500", description = "Batch not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     public Batch getBatchById(@PathVariable String batchId) {
         return batchService.getBatchById(batchId);
     }
@@ -54,6 +64,8 @@ public class BatchController {
     @DeleteMapping("/{batchId}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @Operation(summary = "Delete batch", description = "Inactive a batch by batch id")
+    @ApiResponse(responseCode = "200", description = "On successful delete")
+    @ApiResponse(responseCode = "500", description = "Batch not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     public Batch deleteBatchById(@PathVariable String batchId) {
         return batchService.deleteBatchById(batchId);
     }
@@ -74,12 +86,16 @@ public class BatchController {
 
     @PutMapping("/{batchId}")
     @Operation(summary = "Update batch", description = "Update batch basic details")
+    @ApiResponse(responseCode = "200", description = "On successful update")
+    @ApiResponse(responseCode = "500", description = "Batch not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     public Batch updateBatch(@RequestBody Batch batch, @PathVariable String batchId) {
         return batchService.updateBatch(batch, batchId);
     }
 
     @PutMapping("/activate/{batchId}")
     @Operation(summary = "Make inactive batch active", description = "Update as active through batchId")
+    @ApiResponse(responseCode = "200", description = "On successful change")
+    @ApiResponse(responseCode = "500", description = "Batch not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     public Batch markAsActive(@PathVariable String batchId) {
         Batch batch = batchService.getBatchById(batchId);
         return batchService.markAsActive(batch);
