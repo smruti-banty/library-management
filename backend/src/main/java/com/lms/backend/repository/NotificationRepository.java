@@ -11,8 +11,6 @@ import com.lms.backend.model.Notification;
 public interface NotificationRepository extends MongoRepository<Notification, String> {
     List<Notification> findAllByState(NotificationStateStatus stateStatus);
 
-    List<Notification> findAllByReceiverUserIdStatus(String ReceiverUserId, NotificationStatus status);
-
     List<Notification> findAllByReceiverUserIdAndStatus(String receiverUserId, NotificationStatus status);
 
 }
