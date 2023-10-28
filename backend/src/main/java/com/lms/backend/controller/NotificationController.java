@@ -38,7 +38,6 @@ public class NotificationController {
     @ResponseStatus(code = HttpStatus.CREATED)
     @Operation(summary = "create notification", description = "send appropriate filed to create notification")
     public Notification createNotification(@RequestBody NotificationRequestDto dto) {
-        System.out.println(dto);
         Notification notification = new Notification();
         BeanUtils.copyProperties(dto, notification);
         return notificationService.sendNotification(notification);
@@ -47,7 +46,6 @@ public class NotificationController {
     @PostMapping("/{receiverUserId}")
     @Operation(summary = "Mark as read", description = "Mark as read of all unread notification of a particular user")
     public List<Notification> markAsReadNotification(@PathVariable String receiverUserId) {
-        System.out.println(receiverUserId);
         return notificationService.markAsRead(receiverUserId);
     }
 

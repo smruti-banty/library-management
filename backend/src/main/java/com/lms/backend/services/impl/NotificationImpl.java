@@ -40,11 +40,9 @@ public class NotificationImpl implements NotificationService {
 
     @Override
     public List<Notification> markAsRead(String receiverUserId) {
-        System.out.println("Impl : " + receiverUserId);
         var notifications = notificationRepository.findAllByReceiverUserIdAndStatus(receiverUserId,
                 NotificationStatus.UNREAD);
 
-        System.out.println(notifications);
         var lists = notifications.stream().map(notification -> {
             notification.setStatus(NotificationStatus.READ);
             return notification;
