@@ -24,7 +24,7 @@ public class BatchController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    @Operation(summary = "Create batch", description = "create a new batch")
+    @Operation(summary = "Create batch", description = "Create a new batch")
     public Batch addBatch(@RequestBody BatchRequestDto batchRequestDto) {
         var batch = new Batch();
         BeanUtils.copyProperties(batchRequestDto, batch);
@@ -39,14 +39,14 @@ public class BatchController {
 
     @GetMapping("/{batchId}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    @Operation(summary = "get batch by id", description = "Retrive a batch by it's batch id")
+    @Operation(summary = "Get batch by id", description = "Retrive a batch by it's batch id")
     public Batch getBatchById(@PathVariable String batchId) {
         return batchService.getBatchById(batchId);
     }
 
     @GetMapping("/name/{batchName}")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    @Operation(summary = "get batch by name", description = "Retrive all the batch containing this string")
+    @Operation(summary = "Get batch by name", description = "Retrive all the batch containing this string")
     public List<Batch> getBatchByName(@PathVariable String batchName) {
         return batchService.getBatchByName(batchName);
     }
