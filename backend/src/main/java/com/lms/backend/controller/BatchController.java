@@ -7,6 +7,7 @@ import com.lms.backend.model.Batch;
 import com.lms.backend.services.BatchService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/batch")
+@Tag(name = "Batch controller", description = "Manage batch")
 public class BatchController {
 
     private final BatchService batchService;
