@@ -27,5 +27,4 @@ public interface BookService {
 
     List<Book> getBookBySemester(int semester);
 
-
 }
