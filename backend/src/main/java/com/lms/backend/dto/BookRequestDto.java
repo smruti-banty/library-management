@@ -4,7 +4,10 @@ public record BookRequestDto(
                 String bookName,
                 String referenceNumber,
                 String description,
-                String author) {
+                String author,
+                String shelfNumber,
+                String batchName,
+                int semester) {
 }
 
 // List<String> batch is missing

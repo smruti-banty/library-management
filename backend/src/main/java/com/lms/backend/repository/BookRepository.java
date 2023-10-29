@@ -9,4 +9,7 @@ import com.lms.backend.model.Book;
 
 public interface BookRepository extends MongoRepository<Book, String> {
     List<Book> findAllByStatus(BookStatus status);
+    List<Book> findByShelfNumber(String shelfNumber);
+    List<Book> findByBatchName(String batchName);
+    List<Book> findBySemester(int semester);
 }

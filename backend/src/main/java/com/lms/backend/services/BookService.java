@@ -20,4 +20,12 @@ public interface BookService {
     List<Book> getAllInactiveBooks();
 
     Book updateStock(String bookId, int stock);
+
+    List<Book> getBookByShelfNumber(String shelfNumber);
+
+    List<Book> getBookByBatchName(String batchName);
+
+    List<Book> getBookBySemester(int semester);
+
+
 }

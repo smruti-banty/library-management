@@ -97,4 +97,22 @@ public class BookController {
         return bookService.getBookById(bookId);
     }
 
+    @GetMapping("/byShelf/{shelfNumber}")
+    @Operation(summary = "Get books by shelf number", description = "To retrive all the  books in the given shelf")
+    public List<Book> getBooksByShelfNumber(@PathVariable String shelfNumber) {
+        return bookService.getBookByShelfNumber(shelfNumber);
+    }
+
+    @GetMapping("/byBatch/{batchName}")
+    @Operation(summary = "Get books by batch name", description = "To retrive all the  books for the given batch")
+    public List<Book> getBooksByBatchName(@PathVariable String batchName) {
+        return bookService.getBookByBatchName(batchName);
+    }
+
+    @GetMapping("/bySemester/{semester}")
+    @Operation(summary = "Get books by semester", description = "To retrive all the  books for that semester")
+    public List<Book> getBooksBySemester(@PathVariable int semester) {
+        return bookService.getBookBySemester(semester);
+    }
+
 }

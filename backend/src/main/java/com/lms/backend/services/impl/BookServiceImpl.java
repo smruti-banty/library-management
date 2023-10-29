@@ -93,4 +93,19 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findById(bookId).orElseThrow();
     }
 
+    @Override
+    public List<Book> getBookByShelfNumber(String shelfNumber) {
+        return bookRepository.findByShelfNumber(shelfNumber);
+    }
+
+    @Override
+    public List<Book> getBookByBatchName(String batchName) {
+        return bookRepository.findByBatchName(batchName);
+    }
+
+    @Override
+    public List<Book> getBookBySemester(int semester) {
+        return bookRepository.findBySemester(semester);
+    }
+
 }
