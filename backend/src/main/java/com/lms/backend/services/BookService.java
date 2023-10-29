@@ -26,5 +26,4 @@ public interface BookService {
     List<Book> getBookByBatchName(String batchName);
 
     List<Book> getBookBySemester(int semester);
-
 }

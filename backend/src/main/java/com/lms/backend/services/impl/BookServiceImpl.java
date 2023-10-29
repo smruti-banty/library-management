@@ -107,5 +107,4 @@ public class BookServiceImpl implements BookService {
     public List<Book> getBookBySemester(int semester) {
         return bookRepository.findBySemester(semester);
     }
-
 }
