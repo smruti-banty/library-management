@@ -97,4 +97,10 @@ public class BookController {
         return bookService.getBookById(bookId);
     }
 
+    @PatchMapping("/{bookId}/outofstock")
+    @Operation(summary = "Book out Of stock", description = "Mark book out of stuck and make available stock 0")
+    public Book bookOutOfStock(@PathVariable String bookId) {
+        return bookService.bookOutOfStock(bookId);
+    }
+
 }
