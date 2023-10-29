@@ -4,7 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 interface DataTableProps {
-  data: Book[];
+  data: any;
   idName: string;
   overflowMenu: OverFlowMenuItem[];
 }
@@ -17,6 +17,7 @@ const DataTable: React.FC<DataTableProps> = ({
   if (data.length == 0) return <h2 className="text-center"> No Data </h2>;
   const nonHeading = new Set([
     "description",
+    "semesterApplicable",
     "createdBy",
     "createdDate",
     "updatedBy",
@@ -78,10 +79,12 @@ const DataTable: React.FC<DataTableProps> = ({
                             </Link>
                           ) : (
                             <button
-                            className="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                              className="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100"
                               onClick={() => {
-                                if(menu.callBack)
-                                menu.callBack(String(d[idName as keyof Book]));
+                                if (menu.callBack)
+                                  menu.callBack(
+                                    String(d[idName as keyof Book])
+                                  );
                               }}
                             >
                               {menu.label}

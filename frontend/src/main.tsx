@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import BookDetails from "./components/admin/bookdetails.tsx";
 import AddBook from "./components/admin/forms/add-book.tsx";
+import BatchDetails from "./components/admin/batchdetails.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/book-details/add/:bookId?",
         element: <AddBook />,
+      },
+      {
+        path: "/batch-details",
+        element: <BatchDetails />,
       },
     ],
   },
