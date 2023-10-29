@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/bookissue")
+@RequestMapping("/api/v1/book/issue")
 @RequiredArgsConstructor
 @Tag(name = "Issue Book controller", description = "Manage issue book to student")
 public class BookIssueController {
