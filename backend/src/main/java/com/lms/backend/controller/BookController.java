@@ -103,13 +103,13 @@ public class BookController {
         return bookService.getBookByShelfNumber(shelfNumber);
     }
 
-    @GetMapping("/{batchName}/Batch")
+    @GetMapping("/{batchName}/batch")
     @Operation(summary = "Get books by batch name", description = "To retrive all the  books for the given batch")
     public List<Book> getBooksByBatchName(@PathVariable String batchName) {
         return bookService.getBookByBatchName(batchName);
     }
 
-    @GetMapping("/{semester}/Semester")
+    @GetMapping("/{semester}/semester")
     @Operation(summary = "Get books by semester", description = "To retrive all the  books for that semester")
     public List<Book> getBooksBySemester(@PathVariable int semester) {
         return bookService.getBookBySemester(semester);
