@@ -34,7 +34,6 @@ public class Book {
     private String shelfNumber;
     private String batchName;
     private int semester;
-    // private List<Batch> batch;
     private int availableStock;
     @Field(targetType = FieldType.STRING)
     private BookStatus status;
