@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lms.backend.constants.UserRole;
@@ -17,15 +18,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-
     @Override
     public User createUser(User user) {
+        var encodePassword = passwordEncoder.encode(user.getPassword());
         var userId = UUID.randomUUID().toString();
         var userRole = UserRole.USER;
         var userStatus = UserStatus.PENDING_APPROVAL;
         var currentDate = LocalDateTime.now();
         
+        user.setPassword(encodePassword);
         user.setUserId(userId);
         user.setUserRole(userRole);
         user.setUserStatus(userStatus);
@@ -38,11 +41,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createAdmin(User user) {
+        var encodePassword = passwordEncoder.encode(user.getPassword());
         var userId = UUID.randomUUID().toString();
         var userRole = UserRole.ADMIN;
         var userStatus = UserStatus.ACTIVE;
         var currentDate = LocalDateTime.now();
 
+        user.setPassword(encodePassword);
         user.setUserId(userId);
         user.setUserRole(userRole);
         user.setUserStatus(userStatus);
