@@ -43,7 +43,6 @@ public class BatchController {
     }
 
     @GetMapping("/{batchId}")
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
     @Operation(summary = "Get batch by id", description = "Retrive a batch by it's batch id")
     @ApiResponse(responseCode = "200", description = "On successful retrival")
     @ApiResponse(responseCode = "500", description = "Batch not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
@@ -52,7 +51,6 @@ public class BatchController {
     }
 
     @GetMapping("/name/{batchName}")
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
     @Operation(summary = "Get batch by name", description = "Retrive all the batch containing this string")
     public List<Batch> getBatchByName(@PathVariable String batchName) {
         return batchService.getBatchByName(batchName);
@@ -68,14 +66,12 @@ public class BatchController {
     }
 
     @GetMapping("/active")
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
     @Operation(summary = "Get all active batch", description = "To retrive all the active batch")
     public List<Batch> getAllActiveBatch() {
         return batchService.getAllActiveBatch();
     }
 
     @GetMapping("/inactive")
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
     @Operation(summary = "Get all inactive batch", description = "To retrive all the inactive batch")
     public List<Batch> getAllInActiveBatch() {
         return batchService.getAllInActiveBatch();
