@@ -2,6 +2,7 @@ package com.lms.backend.services.impl;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import com.lms.backend.constants.BookIssueStatus;
 import com.lms.backend.model.BookIssue;
 import com.lms.backend.repository.BookIssueRepository;
 import com.lms.backend.services.BookIssueService;
+import com.lms.backend.services.TransactionService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BookIssueServiceImpl implements BookIssueService {
     private final BookIssueRepository bookIssueRepository;
+    private final TransactionService transactionService;
 
     @Override
     public BookIssue issueBook(BookIssue bookIssue) {
@@ -28,7 +31,13 @@ public class BookIssueServiceImpl implements BookIssueService {
         bookIssue.setCreatedDate(issueDate);
         bookIssue.setUpdatedDate(issueDate);
 
-        bookIssueRepository.save(bookIssue);
+        BookIssue savedBookIssue = bookIssueRepository.save(bookIssue);
+        CompletableFuture.runAsync(() -> {
+            if (savedBookIssue.getBookIssueId() != null) {
+                transactionService.createTransaction(savedBookIssue);
+            }
+        });
+
         return bookIssue;
     }
 
@@ -37,8 +46,16 @@ public class BookIssueServiceImpl implements BookIssueService {
         var existingIssuedBook = bookIssueRepository.findById(bookIssueId).orElseThrow();
         existingIssuedBook.setStatus(BookIssueStatus.RETURNED);
 
-        bookIssueRepository.save(existingIssuedBook);
+        BookIssue savedBookIssue = bookIssueRepository.save(existingIssuedBook);
+
+        CompletableFuture.runAsync(() -> {
+            if (savedBookIssue.getBookIssueId() != null) {
+                transactionService.updateTransaction(bookIssueId);
+            }
+        });
+
         return existingIssuedBook;
+
     }
 
 }
