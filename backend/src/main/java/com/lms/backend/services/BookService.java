@@ -20,4 +20,7 @@ public interface BookService {
     List<Book> getAllInactiveBooks();
 
     Book updateStock(String bookId, int stock);
+
+    Book bookOutOfStock(String bookId);
+
 }
