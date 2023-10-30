@@ -99,6 +99,7 @@ public class BookServiceImpl implements BookService {
 
         book.setAvailableStock(0);
         book.setStatus(BookStatus.OUTOFSTOCK);
+        book.setUpdatedDate(LocalDateTime.now());
 
         bookRepository.save(book);
         return book;
