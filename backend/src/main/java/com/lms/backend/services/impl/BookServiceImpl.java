@@ -94,6 +94,18 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book bookOutOfStock(String bookId) {
+        var book = bookRepository.findById(bookId).orElseThrow();
+
+        book.setAvailableStock(0);
+        book.setStatus(BookStatus.OUTOFSTOCK);
+        book.setUpdatedDate(LocalDateTime.now());
+
+        bookRepository.save(book);
+        return book;
+    }
+
+    @Override
     public List<Book> getBookByShelfNumber(String shelfNumber) {
         return bookRepository.findByShelfNumber(shelfNumber);
     }

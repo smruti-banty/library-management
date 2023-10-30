@@ -97,6 +97,12 @@ public class BookController {
         return bookService.getBookById(bookId);
     }
 
+    @PatchMapping("/{bookId}/outofstock")
+    @Operation(summary = "Book out Of stock", description = "Mark book out of stuck and make available stock 0")
+    public Book bookOutOfStock(@PathVariable String bookId) {
+        return bookService.bookOutOfStock(bookId);
+    }
+
     @GetMapping("/{shelfNumber}/shelf")
     @Operation(summary = "Get books by shelf number", description = "To retrive all the  books in the given shelf")
     public List<Book> getBooksByShelfNumber(@PathVariable String shelfNumber) {

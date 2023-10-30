@@ -21,6 +21,9 @@ public interface BookService {
 
     Book updateStock(String bookId, int stock);
 
+    Book bookOutOfStock(String bookId);
+
+
     List<Book> getBookByShelfNumber(String shelfNumber);
 
     List<Book> getBookByBatchName(String batchName);
