@@ -23,4 +23,10 @@ public interface BookService {
 
     Book bookOutOfStock(String bookId);
 
+
+    List<Book> getBookByShelfNumber(String shelfNumber);
+
+    List<Book> getBookByBatchName(String batchName);
+
+    List<Book> getBookBySemester(int semester);
 }
