@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.stereotype.Service;
 
 import com.lms.backend.constants.BookIssueStatus;
+import com.lms.backend.constants.BookStatus;
 import com.lms.backend.model.BookIssue;
 import com.lms.backend.repository.BookIssueRepository;
 import com.lms.backend.repository.BookRepository;
@@ -35,15 +36,22 @@ public class BookIssueServiceImpl implements BookIssueService {
         bookIssue.setCreatedDate(issueDate);
         bookIssue.setUpdatedDate(issueDate);
 
-        BookIssue savedBookIssue = bookIssueRepository.save(bookIssue);
-        CompletableFuture.runAsync(() -> {
-            if (savedBookIssue.getBookIssueId() != null) {
-                int avaiableStock = book.getAvailableStock() - 1;
-                book.setAvailableStock(avaiableStock);
-                bookRepository.save(book);
-                transactionService.createTransaction(savedBookIssue);
-            }
-        });
+        var bookStatus = book.getStatus();
+        var availableStock = book.getAvailableStock();
+
+        if (bookStatus != BookStatus.OUTOFSTOCK && availableStock > 0) {
+            BookIssue savedBookIssue = bookIssueRepository.save(bookIssue);
+            CompletableFuture.runAsync(() -> {
+                if (savedBookIssue.getBookIssueId() != null) {
+                    int avaiableStock = book.getAvailableStock() - 1;
+                    book.setAvailableStock(avaiableStock);
+                    bookRepository.save(book);
+                    transactionService.createTransaction(savedBookIssue);
+                }
+            });
+        } else {
+            throw new RuntimeException("Book out of stock");
+        }
 
         return bookIssue;
     }
