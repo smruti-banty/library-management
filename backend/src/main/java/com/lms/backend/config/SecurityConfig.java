@@ -2,24 +2,30 @@ package com.lms.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.lms.backend.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final UserRepository userRepository;
 
     @Bean
     UserDetailsService userDetails() {
-        UserDetails user1 = User.withUsername("smruti").password("{noop}banty").roles("ADMIN").build();
-        UserDetails user2 = User.withUsername("rashmi").password("{noop}little").roles("USER").build();
-        return new InMemoryUserDetailsManager(user1, user2);
+        return (username) -> {
+            return userRepository.findByReferenceNumber(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        };
     }
 
     @Bean
