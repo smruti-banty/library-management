@@ -2,17 +2,20 @@ package com.lms.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.lms.backend.constants.UserRole;
 import com.lms.backend.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 @Configuration
@@ -34,6 +37,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/swagger-ui/**", "/v1/library-management-api-docs/**").permitAll()
                         .requestMatchers("/api/v1/user/create").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
                         .anyRequest()
                         .authenticated())
                 .httpBasic(Customizer.withDefaults());
