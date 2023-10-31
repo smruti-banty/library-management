@@ -97,4 +97,9 @@ public class UserController {
     public User approveUser(@PathVariable String userId) {
         return userService.approveUser(userId);
     }
+
+    @GetMapping("/pending")
+    public List<User> getAllPendingUser() {
+        return userService.findAllPendingUser();
+    }
 }

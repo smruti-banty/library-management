@@ -22,4 +22,6 @@ public interface UserService {
     User getUserByReferenceNumber(String referenceNumber);
 
     User approveUser(String userId);
+
+    List<User> findAllPendingUser();
 }
