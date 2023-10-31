@@ -99,6 +99,7 @@ public class UserController {
     }
 
     @GetMapping("/pending")
+    @Operation(summary = "Get the list of all pending user", description = "To retrive all pending user")
     public List<User> getAllPendingUser() {
         return userService.findAllPendingUser();
     }
