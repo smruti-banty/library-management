@@ -36,7 +36,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/swagger-ui/**", "/v1/library-management-api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui.html","/swagger-ui/**", "/v1/library-management-api-docs/**").permitAll()
                         .requestMatchers("/api/v1/user/create").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
                         .requestMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
