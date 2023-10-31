@@ -82,7 +82,7 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-    @GetMapping("/byReferenceNumber/{referenceNumber}")
+    @GetMapping("/byreferencenumber/{referenceNumber}")
     @Operation(summary = "Get user by reference number", description = "To retrive a single user by reference number")
     @ApiResponse(responseCode = "200", description = "On successful retrive")
     @ApiResponse(responseCode = "500", description = "User not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
