@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         var userRole = UserRole.USER;
         var userStatus = UserStatus.PENDING_APPROVAL;
         var currentDate = LocalDateTime.now();
-        
+
         user.setUserId(userId);
         user.setUserRole(userRole);
         user.setUserStatus(userStatus);
@@ -102,5 +102,10 @@ public class UserServiceImpl implements UserService {
         user.setUserStatus(UserStatus.ACTIVE);
         user.setUpdatedDate(LocalDateTime.now());
         return user;
+    }
+
+    @Override
+    public List<User> findAllPendingUser() {
+        return userRepository.findByUserStatus(UserStatus.PENDING_APPROVAL);
     }
 }
