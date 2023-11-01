@@ -73,6 +73,7 @@ public class SecurityConfig {
                         .authenticated())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .logout(logout -> logout.disable())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
