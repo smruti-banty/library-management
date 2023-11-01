@@ -7,15 +7,27 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.lms.backend.constants.UserRole;
 import com.lms.backend.repository.UserRepository;
+import com.lms.backend.utils.Jwks;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
@@ -23,6 +35,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final UserRepository userRepository;
+    private RSAKey rsaKey;
 
     @Bean
     UserDetailsService userDetails() {
@@ -33,11 +46,26 @@ public class SecurityConfig {
     }
 
     @Bean
+    AuthenticationManager authenticationManager() {
+        var provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetails());
+        provider.setPasswordEncoder(passwordEncoder());
+
+        return new ProviderManager(provider);
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/swagger-ui.html","/swagger-ui/**", "/v1/library-management-api-docs/**").permitAll()
-                        .requestMatchers("/api/v1/user/create").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v1/library-management-api-docs/**")
+                        .permitAll()
+                        .requestMatchers("/api/v1/user/create", "/api/v1/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
                         .requestMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/**").hasAuthority(UserRole.ADMIN.name())
@@ -45,12 +73,25 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    JWKSource<SecurityContext> jwkSource() {
+        rsaKey = Jwks.generateRsa();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, SecurityContext) -> jwkSelector.select(jwkSet);
+    }
+
+    @Bean
+    JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+        return new NimbusJwtEncoder(jwkSource);
+    }
+
+    @Bean
+    JwtDecoder jwtDecoder() throws JOSEException {
+        return NimbusJwtDecoder.withPublicKey(rsaKey.toRSAPublicKey()).build();
     }
 }
