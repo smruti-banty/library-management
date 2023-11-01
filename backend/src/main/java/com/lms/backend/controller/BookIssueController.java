@@ -33,9 +33,9 @@ public class BookIssueController {
         return bookIssueService.issueBook(bookIssue);
     }
 
-    @PostMapping("/{issueBookId}/returnbook")
+    @PostMapping("/{issueBookId}/return")
     @Operation(summary = "return book", description = "return the issued book")
-    public BookIssue rerunBook(@PathVariable String issueBookId) {
+    public BookIssue returnBook(@PathVariable String issueBookId) {
         return bookIssueService.returnBook(issueBookId);
     }
 }

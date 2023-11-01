@@ -108,4 +108,9 @@ public class UserServiceImpl implements UserService {
         user.setUpdatedDate(LocalDateTime.now());
         return user;
     }
+
+    @Override
+    public List<User> findAllPendingUser() {
+        return userRepository.findByUserStatus(UserStatus.PENDING_APPROVAL);
+    }
 }
