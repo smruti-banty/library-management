@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.lms.backend.constants.UserRole;
 import com.lms.backend.repository.UserRepository;
 import com.lms.backend.utils.Jwks;
 import com.nimbusds.jose.JOSEException;
