@@ -104,6 +104,7 @@ public class BookIssueServiceImpl implements BookIssueService {
             var studentReferenceNumber = bookIssue.getStudentReferenceNumber();
             var issuedDate = bookIssue.getIssuedDate();
             var issuedBy = bookIssue.getIssuedBy();
+            var status = bookIssue.getStatus().name();
             var bookIssueId = bookIssue.getBookIssueId();
             var bookReferenceNumber = bookIssue.getBookReferenceNumber();
             var book = map.get(bookReferenceNumber);
@@ -111,7 +112,7 @@ public class BookIssueServiceImpl implements BookIssueService {
             var author = book.getAuthor();
 
             return new BookIssueResponseDto(bookIssueId, bookReferenceNumber,
-                    bookName, author, studentReferenceNumber, issuedDate,
+                    bookName, author, studentReferenceNumber, status, issuedDate,
                     issuedBy);
         }).toList();
     }
