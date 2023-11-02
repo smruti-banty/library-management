@@ -101,7 +101,7 @@ public class BookIssueServiceImpl implements BookIssueService {
         books.forEach(book -> map.put(book.getReferenceNumber(), book));
 
         return bookIssues.stream().map(bookIssue -> {
-            var studentReferenceNumber = bookIssue.getStudentRefrenceNumber();
+            var studentReferenceNumber = bookIssue.getStudentReferenceNumber();
             var issuedDate = bookIssue.getIssuedDate();
             var issuedBy = bookIssue.getIssuedBy();
             var bookIssueId = bookIssue.getBookIssueId();
