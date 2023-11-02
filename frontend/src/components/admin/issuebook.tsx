@@ -1,35 +1,40 @@
 import { useEffect, useState } from "react";
-import { issueBook, returnBook } from "../services/bookIssueservice";
+import { allBookIssue, returnBook } from "../services/bookIssueservice";
 import DataTable from "@/common/datatable";
 import { BiSearch } from "react-icons/bi";
 import OverFlowMenuItem from "@/model/OverFlowMenuItem";
 import { useToast } from "../ui/use-toast";
 import BookIssue from "@/model/BookIssue";
-import AddBookIssue from "./forms/add-batch";
+import BookIssueModal from "./forms/modal-issue-book";
 
 const IssueBook = () => {
   const { toast } = useToast();
-  const [batchs, setBookIssues] = useState<BookIssue[]>([]);
+  const [bookIssues, setBookIssues] = useState<BookIssue[]>([]);
   const [filteredBookIssue, setFilteredBookIssue] = useState<BookIssue[]>([]);
   const [search, setSearch] = useState("");
   const [displayBookIssueModal, setDisplayBookIssueModal] = useState(false);
-  const [batchId, setBookIssueId] = useState("");
 
   const overflowMenuItems: OverFlowMenuItem[] = [
     {
       label: "Mark Return",
-      callBack: updateIssueBook,
+      callBack: markReturn,
     },
   ];
 
-  function updateIssueBook(id: string) {
-    setBookIssueId(id);
-    setDisplayBookIssueModal(true);
+  function markReturn(id: string) {
+    try {
+      returnBook(id).then(() => {
+        getBookIssues();
+        toast({ title: "Book returned" });
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function getBookIssues() {
     try {
-      getAllBookIssue().then((response) => {
+      allBookIssue().then((response) => {
         setBookIssues(response.data);
         setFilteredBookIssue(response.data);
       });
@@ -41,12 +46,19 @@ const IssueBook = () => {
   function onSearch(data: string) {
     setSearch(data);
     if (data.length > 3) {
-      const result = batchs.filter((batch) =>
-        batch.batchName.toLocaleLowerCase().includes(data.toLocaleLowerCase())
+      const result = bookIssues.filter(
+        (bookIssue) =>
+          bookIssue
+            .bookName!.toLocaleLowerCase()
+            .includes(data.toLocaleLowerCase()) ||
+          bookIssue.studentReferenceNumber.includes(data) ||
+          bookIssue.bookReferenceNumber
+            .toLocaleLowerCase()
+            .includes(data.toLocaleLowerCase())
       );
       setFilteredBookIssue(result);
     } else {
-      setFilteredBookIssue(batchs);
+      setFilteredBookIssue(bookIssues);
     }
   }
 
@@ -56,7 +68,7 @@ const IssueBook = () => {
 
   return (
     <div className="shadow-lg rounded-md p-5 bg-white">
-      <h2 className="text-xl text-center font-bold p-2">BookIssue Details</h2>
+      <h2 className="text-xl text-center font-bold p-2">Book Issue Details</h2>
       <hr />
       <div className="w-full mt-6 flex h-full justify-between items-center">
         <div
@@ -76,24 +88,22 @@ const IssueBook = () => {
           <button
             className="bg-blacktext-white bg-black text-white p-2"
             onClick={() => {
-              setBookIssueId("");
               setDisplayBookIssueModal(true);
             }}
           >
-            Add BookIssue
+            Issue Book
           </button>
         </div>
       </div>
       <DataTable
         data={filteredBookIssue}
-        idName="batchId"
+        idName="bookIssueId"
         overflowMenu={overflowMenuItems}
       />
       {displayBookIssueModal && (
-        <AddBookIssue
-          setDisplayBookIssueModal={setDisplayBookIssueModal}
+        <BookIssueModal
+          setDisplayIssueModal={setDisplayBookIssueModal}
           updateBookIssueData={getBookIssues}
-          batchId={batchId}
         />
       )}
     </div>
