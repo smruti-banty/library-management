@@ -11,27 +11,27 @@ export function getAdminMenus(): Menu[] {
     {
       label: "Dashboard",
       icon: <MdOutlineDashboardCustomize />,
-      path: "/",
+      path: "/library/dashboard",
     },
     {
       label: "Batch details",
       icon: <SiGoogleclassroom />,
-      path: "/batch-details",
+      path: "/library/batch-details",
     },
     {
       label: "Book details",
       icon: <LuBook />,
-      path: "/book-details",
+      path: "/library/book-details",
     },
     {
       label: "Issue book",
       icon: <FiBookOpen />,
-      path: "/issue-book",
+      path: "/library/issue-book",
     },
     {
       label: "Pending approval",
       icon: <RxAvatar />,
-      path: "/pending-approval",
+      path: "/library/pending-approval",
     },
     {
       label: "Logout",

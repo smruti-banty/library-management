@@ -56,7 +56,7 @@ const AddBook = () => {
         title: toastMessage,
       });
 
-      navigate("/book-details");
+      navigate("/library/book-details");
     }
 
     try {
@@ -131,7 +131,7 @@ const AddBook = () => {
             </button>
             <Link
               className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              to="/book-details"
+              to="/library/book-details"
             >
               back to books!
             </Link>

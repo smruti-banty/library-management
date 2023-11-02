@@ -96,20 +96,21 @@ public class BookIssueServiceImpl implements BookIssueService {
     private List<BookIssueResponseDto> getResponse(List<BookIssue> bookIssues) {
         var refenceNumbers = bookIssues.stream().map(bookIssue -> bookIssue.getBookReferenceNumber()).toList();
         var books = bookRepository.findAllByReferenceNumberIn(refenceNumbers);
-        
+
         var map = new HashMap<String, Book>();
         books.forEach(book -> map.put(book.getReferenceNumber(), book));
-        
+
         return bookIssues.stream().map(bookIssue -> {
             var studentReferenceNumber = bookIssue.getStudentRefrenceNumber();
             var issuedDate = bookIssue.getIssuedDate();
             var issuedBy = bookIssue.getIssuedBy();
             var bookIssueId = bookIssue.getBookIssueId();
-            var book = map.get(bookIssue.getBookReferenceNumber());
+            var bookReferenceNumber = bookIssue.getBookReferenceNumber();
+            var book = map.get(bookReferenceNumber);
             var bookName = book.getBookName();
             var author = book.getAuthor();
 
-            return new BookIssueResponseDto(bookIssueId,
+            return new BookIssueResponseDto(bookIssueId, bookReferenceNumber,
                     bookName, author, studentReferenceNumber, issuedDate,
                     issuedBy);
         }).toList();
