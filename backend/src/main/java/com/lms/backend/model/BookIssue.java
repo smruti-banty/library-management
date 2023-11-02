@@ -25,12 +25,13 @@ import lombok.Setter;
 public class BookIssue {
     @Id
     private String bookIssueId;
-    private String adminId;
-    private String bookId;
     private String bookReferenceNumber;
-    private String studentId;
+    private String studentRefrenceNumber;
     @Field(targetType = FieldType.STRING)
     private BookIssueStatus status;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime issuedDate;
+    private String issuedBy;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
     private String createdBy;
