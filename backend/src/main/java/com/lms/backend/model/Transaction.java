@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lms.backend.constants.BookIssueStatus;
 
 import lombok.AllArgsConstructor;
@@ -30,8 +31,10 @@ public class Transaction {
     private String studentId;
     @Field(targetType = FieldType.STRING)
     private BookIssueStatus status;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
     private String createdBy;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedDate;
     private String updatedBy;
 }

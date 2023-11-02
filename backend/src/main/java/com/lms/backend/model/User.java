@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lms.backend.constants.UserRole;
 import com.lms.backend.constants.UserStatus;
 
@@ -39,7 +40,9 @@ public class User {
     private UserStatus userStatus;
     private String profilePic;
     private String createdBy;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
     private String updatedBy;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedDate;
 }
