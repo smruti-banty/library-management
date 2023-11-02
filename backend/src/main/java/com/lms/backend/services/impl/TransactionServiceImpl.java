@@ -22,9 +22,9 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction createTransaction(BookIssue bookIssue) {
         var transactionId = UUID.randomUUID().toString();
         var bookIssueId = bookIssue.getBookIssueId();
-        var adminId = bookIssue.getAdminId();
+        var adminId = bookIssue.getIssuedBy();
         var bookReferenceNumber = bookIssue.getBookReferenceNumber();
-        var studentId = bookIssue.getStudentId();
+        var studentId = bookIssue.getStudentRefrenceNumber();
         var createdDate = LocalDateTime.now();
         var bookIssueStatus = bookIssue.getStatus();
 
