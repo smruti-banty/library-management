@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lms.backend.constants.BookIssueStatus;
@@ -84,7 +86,8 @@ public class BookIssueServiceImpl implements BookIssueService {
     }
 
     public List<BookIssueResponseDto> getAllIssuedBook() {
-        var bookIssues = bookIssueRepository.findAll();
+        var sort = Sort.by(Direction.DESC, "issuedDate");
+        var bookIssues = bookIssueRepository.findAll(sort);
         return getResponse(bookIssues);
     }
 
