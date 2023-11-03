@@ -27,7 +27,6 @@ public class TransactionServiceImpl implements TransactionService {
         var studentId = bookIssue.getStudentReferenceNumber();
         var bookIssueStatus = bookIssue.getStatus();
 
-        System.out.println(bookIssue.getBookIssueId());
 
         Transaction transaction = new Transaction();
         transaction.setTransactionId(transactionId);
@@ -51,7 +50,6 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setBookReferenceNumber(existingIssuedBook.getBookReferenceNumber());
         transaction.setStudentId(existingIssuedBook.getStudentId());
         transaction.setStatus(BookIssueStatus.RETURNED);
-        transaction.setUpdatedDate(LocalDateTime.now());
 
         transactionRepository.save(transaction);
     }
