@@ -1,6 +1,7 @@
 package com.lms.backend.services.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -57,6 +58,12 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setUpdatedDate(LocalDateTime.now());
 
         transactionRepository.save(transaction);
+    }
+
+    @Override
+    public List<Transaction> getLastFiveTransaction() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return transactionRepository.findTop5ByCreatedDateBeforeOrderByCreatedDateDesc(currentDateTime);
     }
 
 }
