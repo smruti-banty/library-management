@@ -1,9 +1,9 @@
-// import Hero from "./hero";
-// import NavBar from "./navbar";
+import Hero from "./hero";
+import image from "../../assets/centurian.jpg";
 const Home = () => {
   return (
     <>
-      <h1>Home page</h1>
+      <Hero image={image} />
     </>
   );
 };
