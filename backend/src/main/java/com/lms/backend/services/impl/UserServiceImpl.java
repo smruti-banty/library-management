@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
         var user = userRepository.findById(userId).orElseThrow();
         user.setUserStatus(UserStatus.INACTIVE);
         user.setUpdatedDate(LocalDateTime.now());
+        userRepository.save(user);
         return user;
     }
 
@@ -101,6 +102,7 @@ public class UserServiceImpl implements UserService {
         var user = userRepository.findById(userId).orElseThrow();
         user.setUserStatus(UserStatus.ACTIVE);
         user.setUpdatedDate(LocalDateTime.now());
+        userRepository.save(user);
         return user;
     }
 
