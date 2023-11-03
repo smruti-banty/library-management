@@ -5,7 +5,7 @@ package com.lms.backend.dto;
  */
 public record UserRequestDto(
         String firstName,
-        String latsName,
+        String lastName,
         String referenceNumber,
         String email,
         String password) {
