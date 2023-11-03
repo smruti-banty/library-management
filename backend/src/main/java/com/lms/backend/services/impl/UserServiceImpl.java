@@ -1,6 +1,5 @@
 package com.lms.backend.services.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,13 +23,10 @@ public class UserServiceImpl implements UserService {
         var userId = UUID.randomUUID().toString();
         var userRole = UserRole.USER;
         var userStatus = UserStatus.PENDING_APPROVAL;
-        var currentDate = LocalDateTime.now();
 
         user.setUserId(userId);
         user.setUserRole(userRole);
         user.setUserStatus(userStatus);
-        user.setCreatedDate(currentDate);
-        user.setUpdatedDate(currentDate);
 
         userRepository.save(user);
         return user;
@@ -41,13 +37,10 @@ public class UserServiceImpl implements UserService {
         var userId = UUID.randomUUID().toString();
         var userRole = UserRole.ADMIN;
         var userStatus = UserStatus.ACTIVE;
-        var currentDate = LocalDateTime.now();
 
         user.setUserId(userId);
         user.setUserRole(userRole);
         user.setUserStatus(userStatus);
-        user.setCreatedDate(currentDate);
-        user.setUpdatedDate(currentDate);
 
         userRepository.save(user);
         return user;
@@ -62,7 +55,6 @@ public class UserServiceImpl implements UserService {
         oldUser.setEmail(user.getEmail());
         oldUser.setReferenceNumber(user.getReferenceNumber());
         oldUser.setUserStatus(user.getUserStatus());
-        oldUser.setUpdatedDate(LocalDateTime.now());
 
         userRepository.save(oldUser);
         return oldUser;
@@ -72,7 +64,6 @@ public class UserServiceImpl implements UserService {
     public User deleteUser(String userId) {
         var user = userRepository.findById(userId).orElseThrow();
         user.setUserStatus(UserStatus.INACTIVE);
-        user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
         return user;
     }
@@ -101,7 +92,6 @@ public class UserServiceImpl implements UserService {
     public User approveUser(String userId) {
         var user = userRepository.findById(userId).orElseThrow();
         user.setUserStatus(UserStatus.ACTIVE);
-        user.setUpdatedDate(LocalDateTime.now());
         userRepository.save(user);
         return user;
     }

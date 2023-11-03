@@ -1,6 +1,5 @@
 package com.lms.backend.services.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,16 +22,12 @@ public class NotificationImpl implements NotificationService {
     @Override
     public Notification sendNotification(Notification notification) {
         var notificationId = UUID.randomUUID().toString();
-        var createdDate = LocalDateTime.now();
-        var updatedDate = LocalDateTime.now();
         var status = NotificationStatus.UNREAD;
         var state = NotificationStateStatus.ACTIVE;
 
         notification.setNotificationId(notificationId);
-        notification.setCreatedDate(createdDate);
         notification.setStatus(status);
         notification.setState(state);
-        notification.setUpdatedDate(updatedDate);
 
         notificationRepository.save(notification);
         return notification;
@@ -62,7 +57,6 @@ public class NotificationImpl implements NotificationService {
         var oldNotification = notificationRepository.findById(notificationId).orElseThrow();
 
         oldNotification.setState(NotificationStateStatus.INACTIVE);
-        oldNotification.setUpdatedDate(LocalDateTime.now());
 
         notificationRepository.save(oldNotification);
         return oldNotification;

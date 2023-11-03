@@ -22,14 +22,10 @@ public class BatchServiceImpl implements BatchService {
     public Batch addBatch(Batch batch) {
         var batchId = UUID.randomUUID().toString();
         var batchStatus = BatchStatus.ACTIVE;
-        var date = LocalDateTime.now();
-        var createdDate = date;
-        var updatedDate = date;
-
+        
         batch.setBatchId(batchId);
         batch.setStatus(batchStatus);
-        batch.setCreatedDate(createdDate);
-        batch.setUpdatedDate(updatedDate);
+        
 
         batchRepository.save(batch);
 
@@ -55,7 +51,6 @@ public class BatchServiceImpl implements BatchService {
     public Batch deleteBatchById(String batchId) {
         var oldBatch = batchRepository.findById(batchId).orElseThrow();
         oldBatch.setStatus(BatchStatus.INACTIVE);
-        oldBatch.setUpdatedDate(LocalDateTime.now());
         batchRepository.save(oldBatch);
         return oldBatch;
     }
@@ -76,7 +71,6 @@ public class BatchServiceImpl implements BatchService {
         oldBatch.setBatchName(batch.getBatchName());
         oldBatch.setSemesterApplicable(batch.isSemesterApplicable());
         oldBatch.setTotalSemester(batch.getTotalSemester());
-        oldBatch.setUpdatedDate(batch.getUpdatedDate());
 
         batchRepository.save(oldBatch);
         return oldBatch;

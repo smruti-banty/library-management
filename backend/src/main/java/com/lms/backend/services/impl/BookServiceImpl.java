@@ -1,6 +1,5 @@
 package com.lms.backend.services.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,12 +21,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book createBook(Book book) {
         var bookId = UUID.randomUUID().toString();
-        var currentDate = LocalDateTime.now();
         var status = BookStatus.OUTOFSTOCK;
 
         book.setBookId(bookId);
-        book.setCreatedDate(currentDate);
-        book.setUpdatedDate(currentDate);
+
         book.setStatus(status);
 
         bookRepository.save(book);
@@ -42,7 +39,6 @@ public class BookServiceImpl implements BookService {
         oldBook.setAuthor(book.getAuthor());
         oldBook.setDescription(book.getDescription());
         oldBook.setReferenceNumber(book.getReferenceNumber());
-        oldBook.setUpdatedDate(LocalDateTime.now());
 
         bookRepository.save(oldBook);
         return oldBook;
@@ -51,11 +47,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book deleteBook(String bookId) {
         var oldBook = bookRepository.findById(bookId).orElseThrow();
-
+        
         oldBook.setStatus(BookStatus.INACTIVE);
-        oldBook.setUpdatedDate(LocalDateTime.now());
-
         bookRepository.save(oldBook);
+        
         return oldBook;
     }
 
@@ -99,7 +94,6 @@ public class BookServiceImpl implements BookService {
 
         book.setAvailableStock(0);
         book.setStatus(BookStatus.OUTOFSTOCK);
-        book.setUpdatedDate(LocalDateTime.now());
 
         bookRepository.save(book);
         return book;
