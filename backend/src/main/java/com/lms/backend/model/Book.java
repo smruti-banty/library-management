@@ -3,7 +3,6 @@ package com.lms.backend.model;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
-// import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
@@ -19,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 /**
  * Book
  */

@@ -46,4 +46,3 @@ public class BookIssue {
     @Version
     private long version;
 }
-

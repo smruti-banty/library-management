@@ -2,7 +2,6 @@ package com.lms.backend.model;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
