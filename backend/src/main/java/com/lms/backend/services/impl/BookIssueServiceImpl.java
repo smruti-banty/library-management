@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lms.backend.constants.BookIssueStatus;
@@ -84,7 +86,8 @@ public class BookIssueServiceImpl implements BookIssueService {
     }
 
     public List<BookIssueResponseDto> getAllIssuedBook() {
-        var bookIssues = bookIssueRepository.findAll();
+        var sort = Sort.by(Direction.DESC, "issuedDate");
+        var bookIssues = bookIssueRepository.findAll(sort);
         return getResponse(bookIssues);
     }
 
@@ -96,21 +99,23 @@ public class BookIssueServiceImpl implements BookIssueService {
     private List<BookIssueResponseDto> getResponse(List<BookIssue> bookIssues) {
         var refenceNumbers = bookIssues.stream().map(bookIssue -> bookIssue.getBookReferenceNumber()).toList();
         var books = bookRepository.findAllByReferenceNumberIn(refenceNumbers);
-        
+
         var map = new HashMap<String, Book>();
         books.forEach(book -> map.put(book.getReferenceNumber(), book));
-        
+
         return bookIssues.stream().map(bookIssue -> {
-            var studentReferenceNumber = bookIssue.getStudentRefrenceNumber();
+            var studentReferenceNumber = bookIssue.getStudentReferenceNumber();
             var issuedDate = bookIssue.getIssuedDate();
             var issuedBy = bookIssue.getIssuedBy();
+            var status = bookIssue.getStatus().name();
             var bookIssueId = bookIssue.getBookIssueId();
-            var book = map.get(bookIssue.getBookReferenceNumber());
+            var bookReferenceNumber = bookIssue.getBookReferenceNumber();
+            var book = map.get(bookReferenceNumber);
             var bookName = book.getBookName();
             var author = book.getAuthor();
 
-            return new BookIssueResponseDto(bookIssueId,
-                    bookName, author, studentReferenceNumber, issuedDate,
+            return new BookIssueResponseDto(bookIssueId, bookReferenceNumber,
+                    bookName, author, studentReferenceNumber, status, issuedDate,
                     issuedBy);
         }).toList();
     }

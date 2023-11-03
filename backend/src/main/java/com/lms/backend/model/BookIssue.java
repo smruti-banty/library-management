@@ -26,7 +26,7 @@ public class BookIssue {
     @Id
     private String bookIssueId;
     private String bookReferenceNumber;
-    private String studentRefrenceNumber;
+    private String studentReferenceNumber;
     @Field(targetType = FieldType.STRING)
     private BookIssueStatus status;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

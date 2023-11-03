@@ -16,7 +16,7 @@ const BookDetails = () => {
   const overflowMenuItems: OverFlowMenuItem[] = [
     {
       label: "Edit",
-      path: "/book-details/add/",
+      path: "/library/book-details/add/",
     },
     {
       label: "Inactive",

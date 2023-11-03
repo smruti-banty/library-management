@@ -24,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
         var bookIssueId = bookIssue.getBookIssueId();
         var adminId = bookIssue.getIssuedBy();
         var bookReferenceNumber = bookIssue.getBookReferenceNumber();
-        var studentId = bookIssue.getStudentRefrenceNumber();
+        var studentId = bookIssue.getStudentReferenceNumber();
         var createdDate = LocalDateTime.now();
         var bookIssueStatus = bookIssue.getStatus();
 
