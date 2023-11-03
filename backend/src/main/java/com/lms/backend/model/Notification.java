@@ -3,6 +3,7 @@ package com.lms.backend.model;
 import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
@@ -37,7 +38,7 @@ public class Notification {
     private String senderUserId;
     private String receiverUserId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @CreditCardNumber
+    @CreatedDate
     private LocalDateTime createdDate;
     private String createdBy;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
