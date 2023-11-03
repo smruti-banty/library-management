@@ -16,6 +16,7 @@ import College from "./components/college/college.tsx";
 import About from "./components/college/about.tsx";
 import Contact from "./components/college/contact.tsx";
 import IssueBook from "./components/admin/issuebook.tsx";
+import PendingApproval from "./components/admin/pendingapproval.tsx";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
         path: "issue-book",
         element: <IssueBook />,
       },
+      {
+        path: "pending-approval",
+        element: <PendingApproval/>
+      }
     ],
   },
 ]);

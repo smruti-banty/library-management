@@ -3,10 +3,9 @@ export default interface User {
     firstName: string;
     lastName: string;
     email: string;
-    password: string;
     referenceNumber: string;
+    password?: string;
     profilePic?: string;
-    userRole?: string;
     userStatus?: string;
     createdDate?: string;
     createdBy?: string;
