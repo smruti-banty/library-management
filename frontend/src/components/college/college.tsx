@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
-import Hero from "./hero";
 import NavBar from "./navbar";
+import Footer from "./footer";
 
 const College = () => {
   return (
     <>
       <NavBar />
-      <Hero />
       <Outlet />
+      <Footer />
     </>
   );
 };
