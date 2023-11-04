@@ -22,3 +22,7 @@ export function getBatch(batchId: string) {
 export function deleteBatch(batchId: string) {
   return axios.delete(`${BASE_URL}/${batchId}`);
 }
+
+export function getActiveBatches() {
+  return axios.get(`${BASE_URL}/active`);
+}

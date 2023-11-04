@@ -16,6 +16,7 @@ const DataTable: React.FC<DataTableProps> = ({
 }) => {
   if (data.length == 0) return <h2 className="text-center"> No Data </h2>;
   const nonHeading = new Set([
+    "version",
     "description",
     "semesterApplicable",
     "createdBy",

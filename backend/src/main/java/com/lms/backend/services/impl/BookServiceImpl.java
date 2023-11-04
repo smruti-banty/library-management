@@ -6,7 +6,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.lms.backend.constants.BookStatus;
+import com.lms.backend.dto.BookResponseDto;
+import com.lms.backend.model.Batch;
 import com.lms.backend.model.Book;
+import com.lms.backend.repository.BatchRepository;
 import com.lms.backend.repository.BookRepository;
 import com.lms.backend.services.BookService;
 
@@ -15,13 +18,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-
     private final BookRepository bookRepository;
+    private final BatchRepository batchRepository;
 
     @Override
     public Book createBook(Book book) {
         var bookId = UUID.randomUUID().toString();
-       
+
         book.setBookId(bookId);
         book.setStatus(BookStatus.OUTOFSTOCK);
 
@@ -37,6 +40,9 @@ public class BookServiceImpl implements BookService {
         oldBook.setAuthor(book.getAuthor());
         oldBook.setDescription(book.getDescription());
         oldBook.setReferenceNumber(book.getReferenceNumber());
+        oldBook.setBatchId(book.getBatchId());
+        oldBook.setSemester(book.getSemester());
+        oldBook.setShelfNumber(book.getShelfNumber());
 
         bookRepository.save(oldBook);
         return oldBook;
@@ -45,16 +51,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book deleteBook(String bookId) {
         var oldBook = bookRepository.findById(bookId).orElseThrow();
-        
+
         oldBook.setStatus(BookStatus.INACTIVE);
         bookRepository.save(oldBook);
-        
+
         return oldBook;
     }
 
     @Override
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
+    public List<BookResponseDto> getBooks() {
+        return bookRepository.findAll().stream().map(this::convertBookResponseDto).toList();
     }
 
     @Override
@@ -103,12 +109,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getBookByBatchName(String batchName) {
-        return bookRepository.findByBatchName(batchName);
+    public List<Book> getBookByBatchId(String batchId) {
+        return bookRepository.findByBatchId(batchId);
     }
 
     @Override
     public List<Book> getBookBySemester(int semester) {
         return bookRepository.findBySemester(semester);
+    }
+
+    private BookResponseDto convertBookResponseDto(Book book) {
+        var batchId = book.getBatchId();
+        var batch = batchRepository.findById(batchId).orElse(new Batch());
+        var batchName = batch.getBatchName() == null ? "" : batch.getBatchName();
+
+        return new BookResponseDto(book.getBookId(), book.getBookName(), book.getAuthor(),
+                book.getDescription(), book.getImage(),
+                book.getReferenceNumber(),
+                batchName, book.getSemester(),
+                book.getShelfNumber(),
+                book.getAvailableStock(), book.getStatus(),
+                book.getCreatedBy(), book.getCreatedDate(),
+                book.getUpdatedBy(), book.getUpdatedDate());
     }
 }

@@ -2,6 +2,7 @@ package com.lms.backend.services;
 
 import java.util.List;
 
+import com.lms.backend.dto.BookResponseDto;
 import com.lms.backend.model.Book;
 
 public interface BookService {
@@ -13,7 +14,7 @@ public interface BookService {
 
     Book getBookById(String bookId);
 
-    List<Book> getBooks();
+    List<BookResponseDto> getBooks();
 
     List<Book> getAllActiveBooks();
 
@@ -26,7 +27,7 @@ public interface BookService {
 
     List<Book> getBookByShelfNumber(String shelfNumber);
 
-    List<Book> getBookByBatchName(String batchName);
+    List<Book> getBookByBatchId(String batchId);
 
     List<Book> getBookBySemester(int semester);
 }

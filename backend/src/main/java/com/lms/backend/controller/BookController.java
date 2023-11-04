@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lms.backend.dto.BookRequestDto;
+import com.lms.backend.dto.BookResponseDto;
 import com.lms.backend.model.Book;
 import com.lms.backend.services.BookService;
 
@@ -65,7 +66,7 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get books", description = "To retrive all books data")
-    public List<Book> getBooks() {
+    public List<BookResponseDto> getBooks() {
         return bookService.getBooks();
     }
 
@@ -109,10 +110,10 @@ public class BookController {
         return bookService.getBookByShelfNumber(shelfNumber);
     }
 
-    @GetMapping("/{batchName}/batch")
+    @GetMapping("/{batchId}/batch")
     @Operation(summary = "Get books by batch name", description = "To retrive all the  books for the given batch")
-    public List<Book> getBooksByBatchName(@PathVariable String batchName) {
-        return bookService.getBookByBatchName(batchName);
+    public List<Book> getBooksByBatchName(@PathVariable String batchId) {
+        return bookService.getBookByBatchId(batchId);
     }
 
     @GetMapping("/{semester}/semester")
