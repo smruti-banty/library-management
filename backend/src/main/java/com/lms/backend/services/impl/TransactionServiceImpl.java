@@ -1,6 +1,5 @@
 package com.lms.backend.services.impl;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ public class TransactionServiceImpl implements TransactionService {
         var bookReferenceNumber = bookIssue.getBookReferenceNumber();
         var studentId = bookIssue.getStudentReferenceNumber();
         var bookIssueStatus = bookIssue.getStatus();
-
 
         Transaction transaction = new Transaction();
         transaction.setTransactionId(transactionId);
