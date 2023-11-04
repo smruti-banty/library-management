@@ -80,12 +80,12 @@ public class BookIssueServiceImpl implements BookIssueService {
         });
 
         return existingIssuedBook;
-
     }
 
     public List<BookIssueResponseDto> getAllIssuedBook() {
         var sort = Sort.by(Direction.DESC, "issuedDate");
         var bookIssues = bookIssueRepository.findAll(sort);
+        
         return getResponse(bookIssues);
     }
 

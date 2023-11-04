@@ -20,13 +20,11 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public Batch addBatch(Batch batch) {
-        var batchId = UUID.randomUUID().toString();
-        var batchStatus = BatchStatus.ACTIVE;
+        var batchId = UUID.randomUUID().toString(); 
         
         batch.setBatchId(batchId);
-        batch.setStatus(batchStatus);
+        batch.setStatus(BatchStatus.ACTIVE);
         
-
         batchRepository.save(batch);
 
         return batch;
@@ -50,8 +48,10 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Batch deleteBatchById(String batchId) {
         var oldBatch = batchRepository.findById(batchId).orElseThrow();
+        
         oldBatch.setStatus(BatchStatus.INACTIVE);
         batchRepository.save(oldBatch);
+
         return oldBatch;
     }
 
@@ -68,6 +68,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Batch updateBatch(Batch batch, String batchId) {
         var oldBatch = batchRepository.findById(batchId).orElseThrow();
+        
         oldBatch.setBatchName(batch.getBatchName());
         oldBatch.setSemesterApplicable(batch.isSemesterApplicable());
         oldBatch.setTotalSemester(batch.getTotalSemester());
@@ -79,8 +80,8 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Batch markAsActive(Batch batch) {
         batch.setStatus(BatchStatus.ACTIVE);
-        batch.setUpdatedDate(LocalDateTime.now());
         batchRepository.save(batch);
+        
         return batch;
     }
 

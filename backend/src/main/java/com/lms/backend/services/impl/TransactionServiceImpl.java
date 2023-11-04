@@ -59,5 +59,4 @@ public class TransactionServiceImpl implements TransactionService {
         LocalDateTime currentDateTime = LocalDateTime.now();
         return transactionRepository.findTop5ByCreatedDateBeforeOrderByCreatedDateDesc(currentDateTime);
     }
-
 }

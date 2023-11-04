@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
     public User deleteUser(String userId) {
         var user = userRepository.findById(userId).orElseThrow();
         user.setUserStatus(UserStatus.INACTIVE);
+
         userRepository.save(user);
         return user;
     }
@@ -92,6 +93,7 @@ public class UserServiceImpl implements UserService {
     public User approveUser(String userId) {
         var user = userRepository.findById(userId).orElseThrow();
         user.setUserStatus(UserStatus.ACTIVE);
+        
         userRepository.save(user);
         return user;
     }

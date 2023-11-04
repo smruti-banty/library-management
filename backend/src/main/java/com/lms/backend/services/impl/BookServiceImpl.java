@@ -21,11 +21,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book createBook(Book book) {
         var bookId = UUID.randomUUID().toString();
-        var status = BookStatus.OUTOFSTOCK;
-
+       
         book.setBookId(bookId);
-
-        book.setStatus(status);
+        book.setStatus(BookStatus.OUTOFSTOCK);
 
         bookRepository.save(book);
         return book;
