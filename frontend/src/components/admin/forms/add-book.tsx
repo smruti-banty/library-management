@@ -33,6 +33,9 @@ const AddBook = () => {
     author: "",
     description: "",
     referenceNumber: "",
+    shelfNumber: "",
+    batchId: "",
+    semester: 0,
   });
 
   useEffect(() => {
@@ -47,8 +50,19 @@ const AddBook = () => {
     bookNameRef.current!.value = book.bookName;
     referenceNumberRef.current!.value = book.referenceNumber;
     authorRef.current!.value = book.author;
+    shelfNumberRef.current!.value = book.shelfNumber;
+    batchNameRef.current!.value = book.batchId;
+    semesterRef.current!.value = String(book.semester);
+    authorRef.current!.value = book.author;
     descriptionRef.current!.value = book.description;
-  }, [book.author, book.bookName, book.description, book.referenceNumber]);
+
+    if (book.batchId !== "") {
+      const batch = batchs.find((batch) => batch.batchId === book.batchId);
+      if (batch) {
+        setSemester(batch.totalSemester);
+      }
+    }
+  }, [batchs, book.author, book.batchId, book.bookName, book.description, book.referenceNumber, book.semester, book.shelfNumber]);
 
   const bookNameRef = useRef<HTMLInputElement>(null);
   const referenceNumberRef = useRef<HTMLInputElement>(null);

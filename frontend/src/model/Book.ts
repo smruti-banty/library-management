@@ -4,8 +4,8 @@ export default interface Book {
   author: string;
   description: string;
   referenceNumber: string;
-  shelfNumber?: string;
-  batchId?: string;
+  shelfNumber: string;
+  batchId: string;
   semester?: number;
   availableStock?: number;
   status?: string;
