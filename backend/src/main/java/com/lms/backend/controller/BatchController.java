@@ -81,7 +81,9 @@ public class BatchController {
     @Operation(summary = "Update batch", description = "Update batch basic details")
     @ApiResponse(responseCode = "200", description = "On successful update")
     @ApiResponse(responseCode = "500", description = "Batch not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
-    public Batch updateBatch(@RequestBody Batch batch, @PathVariable String batchId) {
+    public Batch updateBatch(@RequestBody BatchRequestDto batchRequestDto, @PathVariable String batchId) {
+        Batch batch = new Batch();
+        BeanUtils.copyProperties(batchRequestDto, batch);
         return batchService.updateBatch(batch, batchId);
     }
 

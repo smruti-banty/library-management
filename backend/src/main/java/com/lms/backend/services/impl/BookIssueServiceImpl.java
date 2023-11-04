@@ -40,8 +40,6 @@ public class BookIssueServiceImpl implements BookIssueService {
         bookIssue.setBookIssueId(bookIssueId);
         bookIssue.setStatus(issueStatus);
         bookIssue.setIssuedDate(now);
-        bookIssue.setCreatedDate(now);
-        bookIssue.setUpdatedDate(now);
 
         var bookStatus = book.getStatus();
         var availableStock = book.getAvailableStock();
