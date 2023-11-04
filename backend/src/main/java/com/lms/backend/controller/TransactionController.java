@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lms.backend.model.Transaction;
+import com.lms.backend.dto.TransactionResponseDto;
 import com.lms.backend.services.TransactionService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,8 +23,7 @@ public class TransactionController {
 
     @GetMapping("/five")
     @Operation(summary = "Get transaction", description = "To retrieve last five transaction")
-    public List<Transaction> getAllNotifications() {
-
+    public List<TransactionResponseDto> getAllNotifications() {
         return transactionService.getLastFiveTransaction();
     }
 }
