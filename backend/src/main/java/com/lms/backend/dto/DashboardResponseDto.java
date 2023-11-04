@@ -1,5 +1,5 @@
 package com.lms.backend.dto;
 
 public record DashboardResponseDto(long totalBook, long totalAdmin, long totalStudent, long totalBatch,
-        long totalIssuedBook) {
+        long issuedBooks) {
 }
