@@ -52,4 +52,10 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.save(transaction);
     }
 
+    @Override
+    public List<Transaction> getLastFiveTransaction() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return transactionRepository.findTop5ByCreatedDateBeforeOrderByCreatedDateDesc(currentDateTime);
+    }
+
 }

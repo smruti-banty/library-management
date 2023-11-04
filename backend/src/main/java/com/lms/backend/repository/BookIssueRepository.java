@@ -9,4 +9,6 @@ import com.lms.backend.model.BookIssue;
 
 public interface BookIssueRepository extends MongoRepository<BookIssue, String> {
     List<BookIssue> findByStatus(BookIssueStatus status);
+
+    long countByStatus(BookIssueStatus status);
 }
