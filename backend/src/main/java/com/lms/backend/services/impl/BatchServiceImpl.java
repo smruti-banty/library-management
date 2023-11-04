@@ -1,6 +1,5 @@
 package com.lms.backend.services.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,11 +19,11 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public Batch addBatch(Batch batch) {
-        var batchId = UUID.randomUUID().toString(); 
-        
+        var batchId = UUID.randomUUID().toString();
+
         batch.setBatchId(batchId);
         batch.setStatus(BatchStatus.ACTIVE);
-        
+
         batchRepository.save(batch);
 
         return batch;
@@ -48,7 +47,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Batch deleteBatchById(String batchId) {
         var oldBatch = batchRepository.findById(batchId).orElseThrow();
-        
+
         oldBatch.setStatus(BatchStatus.INACTIVE);
         batchRepository.save(oldBatch);
 
@@ -68,7 +67,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Batch updateBatch(Batch batch, String batchId) {
         var oldBatch = batchRepository.findById(batchId).orElseThrow();
-        
+
         oldBatch.setBatchName(batch.getBatchName());
         oldBatch.setSemesterApplicable(batch.isSemesterApplicable());
         oldBatch.setTotalSemester(batch.getTotalSemester());
@@ -81,7 +80,7 @@ public class BatchServiceImpl implements BatchService {
     public Batch markAsActive(Batch batch) {
         batch.setStatus(BatchStatus.ACTIVE);
         batchRepository.save(batch);
-        
+
         return batch;
     }
 
