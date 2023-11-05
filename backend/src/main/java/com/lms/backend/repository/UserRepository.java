@@ -16,6 +16,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     List<User> findByUserStatus(UserStatus userStatus);
 
+    boolean existsByReferenceNumber(String referenceNumber);
+
     long countByUserRole(UserRole userRole);
 
     long countByUserRoleAndUserStatus(UserRole userRole, UserStatus userStatus);
