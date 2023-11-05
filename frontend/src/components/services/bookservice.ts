@@ -22,3 +22,15 @@ export function getBook(bookId: string) {
 export function deleteBook(bookId: string) {
   return axios.delete(`${BASE_URL}/${bookId}`);
 }
+
+export function updateStockValue(bookId: string, value: number) {
+  return axios.patch(`${BASE_URL}/${bookId}/stock/${value}`);
+}
+
+export function uploadBookImage(bookId: string, formData: FormData) {
+  return axios.post(`${BASE_URL}/${bookId}/upload/image`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}

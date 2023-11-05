@@ -213,7 +213,7 @@ const AddBook = () => {
             <textarea
               className={styleInput}
               id="description"
-              placeholder="Author name"
+              placeholder="Book description"
               ref={descriptionRef}
             />
           </div>

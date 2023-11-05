@@ -3,7 +3,9 @@ package com.lms.backend.services.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lms.backend.constants.BookStatus;
 import com.lms.backend.dto.BookResponseDto;
@@ -12,6 +14,7 @@ import com.lms.backend.model.Book;
 import com.lms.backend.repository.BatchRepository;
 import com.lms.backend.repository.BookRepository;
 import com.lms.backend.services.BookService;
+import com.lms.backend.services.StorageService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BatchRepository batchRepository;
+    private final StorageService storageService;
 
     @Override
     public Book createBook(Book book) {
@@ -118,13 +122,31 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findBySemester(semester);
     }
 
+    @Override
+    public String saveBookImage(String bookId, MultipartFile file) {
+        var book = bookRepository.findById(bookId).orElseThrow();
+        var location = storageService.store(file, "book/");
+
+        book.setImage(location);
+        bookRepository.save(book);
+
+        return location;
+    }
+
+    @Override
+    public Resource getImage(String bookId) {
+        var book = bookRepository.findById(bookId).orElseThrow();
+        return storageService.load(book.getImage());
+    }
+
     private BookResponseDto convertBookResponseDto(Book book) {
         var batchId = book.getBatchId();
         var batch = batchRepository.findById(batchId).orElse(new Batch());
         var batchName = batch.getBatchName() == null ? "" : batch.getBatchName();
+        var image = "/book/%s/image/%d".formatted(book.getBookId(), book.getVersion());
 
         return new BookResponseDto(book.getBookId(), book.getBookName(), book.getAuthor(),
-                book.getDescription(), book.getImage(),
+                book.getDescription(), image,
                 book.getReferenceNumber(),
                 batchName, book.getSemester(),
                 book.getShelfNumber(),

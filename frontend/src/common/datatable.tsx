@@ -8,6 +8,7 @@ interface DataTableProps {
   idName: string;
   overflowMenu: OverFlowMenuItem[];
 }
+const BASE_URL = `http://localhost:1205/api/v1`;
 
 const DataTable: React.FC<DataTableProps> = ({
   data,
@@ -51,7 +52,15 @@ const DataTable: React.FC<DataTableProps> = ({
             <tr>
               {headings.map((heading, index) => (
                 <td key={index} className={columStyle}>
-                  {d[heading as keyof Book]}
+                  {heading === "image" ? (
+                    <img
+                      src={`${BASE_URL}${d[heading as keyof Book]}`}
+                      alt="No image"
+                      className="h-20 w-full"
+                    />
+                  ) : (
+                    <p>{d[heading as keyof Book]}</p>
+                  )}
                 </td>
               ))}
               {overflowMenu.length > 0 && (
