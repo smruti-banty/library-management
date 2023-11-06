@@ -21,6 +21,7 @@ import UserHome from "./components/user/home.tsx";
 import YourBook from "./components/user/yourbook.tsx";
 import Favorite from "./components/user/favorite.tsx";
 import DisplayBook from "./components/user/displaybook.tsx";
+import Login from "./components/login/login.tsx";
 
 const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "login",
+    element: <Login />, 
   },
 ]);
 
