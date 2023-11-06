@@ -89,11 +89,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return userStatus == UserStatus.ACTIVE;
     }
-
-    public Integer getSemester() {
-        if (semester == 0) {
-            return null;
-        }
-        return semester;
-    }
 }
