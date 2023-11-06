@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:1205/api/v1/login";
+const BASE_URL = "/login";
 
 export function isAuthenticate() {
   if (!localStorage.getItem("key")) {

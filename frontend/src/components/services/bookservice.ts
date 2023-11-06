@@ -1,7 +1,7 @@
 import Book from "@/model/Book";
 import axios from "./api";
 
-const BASE_URL = "http://localhost:1205/api/v1/book";
+const BASE_URL = "/book";
 
 export function getAllBooks() {
   return axios.get(BASE_URL);
