@@ -1,5 +1,5 @@
 import Notification from "@/model/Notification";
-import axios from "axios";
+import axios from "./api";
 
 const BASE_URL = "http://localhost:1205/api/v1/notification";
 

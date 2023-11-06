@@ -22,6 +22,8 @@ import YourBook from "./components/user/yourbook.tsx";
 import Favorite from "./components/user/favorite.tsx";
 import DisplayBook from "./components/user/displaybook.tsx";
 import Login from "./components/login/login.tsx";
+import PrivateRoute from "./privateroute.tsx";
+import { isAuthenticate } from "./components/services/authservice.ts";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +54,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: (
+          <PrivateRoute isAuthenticated={isAuthenticate()}>
+            <Dashboard />
+          </PrivateRoute>
+        ),
       },
       {
         path: "book-details",
@@ -99,7 +105,7 @@ const router = createBrowserRouter([
   },
   {
     path: "login",
-    element: <Login />, 
+    element: <Login />,
   },
 ]);
 

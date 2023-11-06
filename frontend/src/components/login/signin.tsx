@@ -1,21 +1,60 @@
 import { FaLock, FaUser } from "react-icons/fa";
+import { useRef } from "react";
+import { loginUser, storeKey } from "../services/authservice";
+import { useToast } from "../ui/use-toast";
 interface SigninProps {
   handleSignUpClick: () => void;
 }
 const Signin: React.FC<SigninProps> = ({ handleSignUpClick }) => {
+  const { toast } = useToast();
+
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  function reset() {
+    if (usernameRef.current) usernameRef.current.value = "";
+    if (passwordRef.current) passwordRef.current.value = "";
+  }
+
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const username = usernameRef.current?.value || "";
+    const password = passwordRef.current?.value || "";
+
+    const login = { username, password };
+
+    loginUser(login)
+      .then((res) => {
+        storeKey(res.data.token);
+        naviagateUserHome();
+        reset();
+      })
+      .catch((err) => {
+        const res = err.response.data;
+
+        toast({
+          title: res.title,
+          description: res.detail,
+          variant: "destructive",
+        });
+      });
+  }
+
+  function naviagateUserHome() {}
   return (
     <div className="login-form-container sign-in">
-      <form action="#">
+      <form onSubmit={onSubmit}>
         <h2>login</h2>
         <div className="form-group">
-          <input type="text" required />
+          <input type="text" id="username" required ref={usernameRef} />
           <i>
             <FaUser />
           </i>
           <label>username</label>
         </div>
         <div className="form-group">
-          <input type="password" required />
+          <input type="password" id="userPassword" required ref={passwordRef} />
           <i>
             <FaLock />
           </i>

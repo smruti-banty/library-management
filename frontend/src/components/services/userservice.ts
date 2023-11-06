@@ -1,7 +1,7 @@
 import User from "@/model/User";
-import axios from "axios";
+import axios from "./api";
 
-const BASE_URL = "http://localhost:1205/api/v1/user";
+const BASE_URL = "/user";
 
 export function createUser(user: User) {
     return axios.post(`${BASE_URL}/create`, user);
