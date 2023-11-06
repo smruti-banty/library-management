@@ -52,8 +52,7 @@ public class AuthenticationController {
     @GetMapping("/user")
     public UserResponseDto getCurrentUser(Principal principal) {
         var user = userService.getUserByReferenceNumber(principal.getName());
-        return new UserResponseDto(user.getFirstName(), user.getLastName(), user.getEmail(),
-                user.getReferenceNumber(), user.getProfilePic());
+        return new UserResponseDto(user.getUserId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getReferenceNumber(), user.getProfilePic());
     }
 
     @GetMapping("/user/role")

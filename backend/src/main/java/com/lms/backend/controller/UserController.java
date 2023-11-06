@@ -122,10 +122,6 @@ public class UserController {
                 user.getLastName(),
                 user.getEmail(),
                 user.getReferenceNumber(),
-                user.getProfilePic(),
-                user.getUpdatedDate(),
-                user.getCreatedDate(),
-                user.getCreatedBy(),
-                user.getUpdatedBy());
+                user.getProfilePic());
     }
 }
