@@ -1,5 +1,6 @@
 package com.lms.backend.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -123,6 +124,7 @@ public class UserController {
                 user.getLastName(),
                 user.getEmail(),
                 user.getReferenceNumber(),
-                user.getProfilePic());
+                user.getProfilePic(),
+                user.getUserRole());
     }
 }

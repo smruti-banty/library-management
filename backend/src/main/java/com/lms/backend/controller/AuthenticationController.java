@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lms.backend.dto.LoginRequestDto;
 import com.lms.backend.dto.LoginResponseDto;
 import com.lms.backend.dto.UserResponseDto;
+import com.lms.backend.model.User;
 import com.lms.backend.services.TokenService;
 import com.lms.backend.services.UserService;
 
@@ -52,12 +53,23 @@ public class AuthenticationController {
     @GetMapping("/user")
     public UserResponseDto getCurrentUser(Principal principal) {
         var user = userService.getUserByReferenceNumber(principal.getName());
-        return new UserResponseDto(user.getUserId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getReferenceNumber(), user.getProfilePic());
+        return convertToUserResponseDto(user);
     }
 
     @GetMapping("/user/role")
     public Map<String, String> getCurrentUserRole(Principal principal) {
         var user = userService.getUserByReferenceNumber(principal.getName());
         return Map.of("role", user.getUserRole().name());
+    }
+
+    private UserResponseDto convertToUserResponseDto(User user) {
+        return new UserResponseDto(
+                user.getUserId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getReferenceNumber(),
+                user.getProfilePic(),
+                user.getUserRole());
     }
 }
