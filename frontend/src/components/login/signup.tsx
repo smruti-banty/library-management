@@ -47,7 +47,7 @@ const Signup: React.FC<SignupProps> = ({ handleSignInClick }) => {
 
     const firstName = firstNameRef.current?.value || "";
     const lastName = lastNameRef.current?.value || "";
-    const batchName = batchNameRef.current?.value || "";
+    const batchId = batchNameRef.current?.value || "";
     const semester = semesterRef.current?.value || "";
     const referenceNumber = referenceNumberRef.current?.value || "";
     const email = emailRef.current?.value || "";
@@ -56,7 +56,7 @@ const Signup: React.FC<SignupProps> = ({ handleSignInClick }) => {
     const user = {
       firstName,
       lastName,
-      batchName,
+      batchId,
       semester,
       referenceNumber,
       email,
