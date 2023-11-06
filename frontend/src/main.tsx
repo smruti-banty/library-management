@@ -17,6 +17,10 @@ import About from "./components/college/about.tsx";
 import Contact from "./components/college/contact.tsx";
 import IssueBook from "./components/admin/issuebook.tsx";
 import PendingApproval from "./components/admin/pendingapproval.tsx";
+import UserHome from "./components/user/home.tsx";
+import YourBook from "./components/user/yourbook.tsx";
+import Favorite from "./components/user/favorite.tsx";
+import DisplayBook from "./components/user/displaybook.tsx";
 
 const router = createBrowserRouter([
   {
@@ -67,8 +71,29 @@ const router = createBrowserRouter([
       },
       {
         path: "pending-approval",
-        element: <PendingApproval/>
-      }
+        element: <PendingApproval />,
+      },
+      {
+        path: "user",
+        children: [
+          {
+            path: "home",
+            element: <UserHome />,
+          },
+          {
+            path: "home/:type",
+            element: <DisplayBook />,
+          },
+          {
+            path: "your-book",
+            element: <YourBook />,
+          },
+          {
+            path: "favorite",
+            element: <Favorite />,
+          },
+        ],
+      },
     ],
   },
 ]);
