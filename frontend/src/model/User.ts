@@ -5,6 +5,8 @@ export default interface User {
     email: string;
     referenceNumber: string;
     password?: string;
+    batchId?: string;
+    semester?: string;
     profilePic?: string;
     userStatus?: string;
     createdDate?: string;

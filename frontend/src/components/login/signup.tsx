@@ -3,12 +3,16 @@ import { AiOutlineNumber } from "react-icons/ai";
 import { useState, useEffect, useRef } from "react";
 import Batch from "@/model/Batch";
 import { getActiveBatches } from "../services/batchservice";
+import { useToast } from "../ui/use-toast";
+import User from "@/model/User";
+import { createUser } from "../services/userservice";
 
 interface SignupProps {
   handleSignInClick: () => void;
 }
 
 const Signup: React.FC<SignupProps> = ({ handleSignInClick }) => {
+  const { toast } = useToast();
   const [batchs, setBatchs] = useState<Batch[]>([]);
   const [semester, setSemester] = useState(0);
 
@@ -21,14 +25,20 @@ const Signup: React.FC<SignupProps> = ({ handleSignInClick }) => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    try {
-      getActiveBatches().then((response) => {
+    getActiveBatches()
+      .then((response) => {
         setBatchs(response.data);
+      })
+      .catch((err) => {
+        const res = err.response.data;
+
+        toast({
+          title: res.title,
+          description: res.detail,
+          variant: "destructive",
+        });
       });
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+  }, [toast]);
 
   function onBatchChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const value = e.target.value;
@@ -53,7 +63,7 @@ const Signup: React.FC<SignupProps> = ({ handleSignInClick }) => {
     const email = emailRef.current?.value || "";
     const password = passwordRef.current?.value || "";
 
-    const user = {
+    const user: User = {
       firstName,
       lastName,
       batchId,
@@ -62,11 +72,37 @@ const Signup: React.FC<SignupProps> = ({ handleSignInClick }) => {
       email,
       password,
     };
-    console.log(user);
 
-    alert(user);
+    createUser(user)
+      .then(function () {
+        toast({
+          title: "Account created",
+          description: "Once it verified, you can login",
+        });
+
+        reset();
+        handleSignInClick();
+      })
+      .catch((err) => {
+        const res = err.response.data;
+
+        toast({
+          title: res.title,
+          description: res.detail,
+          variant: "destructive",
+        });
+      });
   }
 
+  function reset() {
+    if (firstNameRef.current) firstNameRef.current.value = "";
+    if (lastNameRef.current) lastNameRef.current.value = "";
+    if (batchNameRef.current) batchNameRef.current.value = "";
+    if (semesterRef.current) semesterRef.current.value = "";
+    if (referenceNumberRef.current) referenceNumberRef.current.value = "";
+    if (emailRef.current) emailRef.current.value = "";
+    if (passwordRef.current) passwordRef.current.value = "";
+  }
   return (
     <div className="login-form-container sign-up">
       <form onSubmit={onSubmit} autoComplete="off">
