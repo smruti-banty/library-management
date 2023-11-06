@@ -42,11 +42,13 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String referenceNumber;
+    private String batchId;
+    private int semester;
+    private String profilePic;
     @Field(targetType = FieldType.STRING)
     private UserRole userRole;
     @Field(targetType = FieldType.STRING)
     private UserStatus userStatus;
-    private String profilePic;
     private String createdBy;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @CreatedDate
@@ -86,5 +88,12 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return userStatus == UserStatus.ACTIVE;
+    }
+
+    public Integer getSemester() {
+        if (semester == 0) {
+            return null;
+        }
+        return semester;
     }
 }
