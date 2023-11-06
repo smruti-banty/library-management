@@ -21,9 +21,9 @@ const Signin: React.FC<SigninProps> = ({ handleSignUpClick }) => {
           </i>
           <label>password</label>
         </div>
-        <div className="forgot-pass">
+        {/* <div className="forgot-pass">
           <a href="#">forgot password?</a>
-        </div>
+        </div> */}
         <div>
           <button type="submit" className="btn">
             login
