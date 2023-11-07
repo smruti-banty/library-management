@@ -143,7 +143,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookResponseDto> getBooksByBatch(String batchId, int semester) {
-        var books = bookRepository.finadAllByBatchIdAndsemester(batchId, semester);
+        var books = bookRepository.findAllByBatchIdAndSemester(batchId, semester);
         return books.stream().map(this::convertBookResponseDto).toList();
     }
 
