@@ -14,4 +14,6 @@ public interface BookIssueService {
     List<BookIssueResponseDto> getAllIssuedBook();
 
     List<BookIssueResponseDto> getAllIssuedBook(BookIssueStatus status);
+
+    List<BookIssueResponseDto> getAllIssuedBook(String referenceNumber);
 }

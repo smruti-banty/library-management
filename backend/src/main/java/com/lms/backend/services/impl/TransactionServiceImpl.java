@@ -84,4 +84,9 @@ public class TransactionServiceImpl implements TransactionService {
                 transaction.getStatus().name(),
                 transaction.getUpdatedDate());
     }
+
+    @Override
+    public List<Transaction> getDemandindBook() {
+        return transactionRepository.findTransactionsForBookReferenceNumbersWithAtLeastTwoEntries();
+    }
 }

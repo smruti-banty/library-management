@@ -11,4 +11,7 @@ public interface BookIssueRepository extends MongoRepository<BookIssue, String> 
     List<BookIssue> findByStatus(BookIssueStatus status);
 
     long countByStatus(BookIssueStatus status);
+
+    List<BookIssue> findByStudentReferenceNumber(String studentReferenceNumber);
+
 }

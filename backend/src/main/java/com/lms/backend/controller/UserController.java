@@ -1,6 +1,5 @@
 package com.lms.backend.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;

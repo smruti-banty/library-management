@@ -103,6 +103,12 @@ public class BookIssueServiceImpl implements BookIssueService {
         return getResponse(bookIssues);
     }
 
+    @Override
+    public List<BookIssueResponseDto> getAllIssuedBook(String referenceNumber) {
+        var books = bookIssueRepository.findByStudentReferenceNumber(referenceNumber);
+        return getResponse(books);
+    }
+
     private List<BookIssueResponseDto> getResponse(List<BookIssue> bookIssues) {
         var refenceNumbers = bookIssues.stream().map(bookIssue -> bookIssue.getBookReferenceNumber()).toList();
         var books = bookRepository.findAllByReferenceNumberIn(refenceNumbers);

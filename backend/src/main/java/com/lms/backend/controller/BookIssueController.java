@@ -1,5 +1,6 @@
 package com.lms.backend.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -18,7 +19,6 @@ import com.lms.backend.dto.BookIssueRequestDto;
 import com.lms.backend.dto.BookIssueResponseDto;
 import com.lms.backend.model.BookIssue;
 import com.lms.backend.services.BookIssueService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -62,4 +62,12 @@ public class BookIssueController {
     public List<BookIssueResponseDto> returnBook() {
         return bookIssueService.getAllIssuedBook(BookIssueStatus.RETURNED);
     }
+
+    @GetMapping("/user")
+    @Operation(summary = "Issued book by user", description = "Get all the issued book of user")
+    public List<BookIssueResponseDto> bookByUser(Principal principal) {
+        var referenceNumber = principal.getName();
+        return bookIssueService.getAllIssuedBook(referenceNumber);
+    }
+
 }

@@ -15,4 +15,6 @@ public interface TransactionService {
     void updateTransaction(String bookIssueId);
 
     List<TransactionResponseDto> getLastFiveTransaction();
+    
+    List<Transaction> getDemandindBook();
 }

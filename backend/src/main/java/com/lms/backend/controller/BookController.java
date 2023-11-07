@@ -1,5 +1,6 @@
 package com.lms.backend.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import com.lms.backend.dto.BookRequestDto;
 import com.lms.backend.dto.BookResponseDto;
 import com.lms.backend.model.Book;
 import com.lms.backend.services.BookService;
+import com.lms.backend.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,6 +42,21 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Book controller", description = "Manage books")
 public class BookController {
     private final BookService bookService;
+    private final UserService userService;
+
+    @GetMapping("/current/user/batch")
+    @Operation(summary = "Get books of batch", description = "Get current user book by batch")
+    public List<BookResponseDto> getBooksByBatch(Principal principal) {
+        var referenceNumber = principal.getName();
+        var user = userService.getUserByReferenceNumber(referenceNumber);
+        return bookService.getBooksByBatch(user.getBatchId(), user.getSemester());
+    }
+
+    @GetMapping("/demanding")
+    @Operation(summary = "Demanding book", description = "Get most demanding book")
+    public List<BookResponseDto> demandingBooks() {
+        return bookService.getMostDemandingBooks();
+    }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)

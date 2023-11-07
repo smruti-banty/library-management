@@ -36,4 +36,8 @@ public interface BookService {
     String saveBookImage(String bookId, MultipartFile file);
 
     Resource getImage(String bookId);
+
+    List<BookResponseDto> getBooksByBatch(String batchId, int semester);
+
+    List<BookResponseDto> getMostDemandingBooks();
 }
