@@ -66,6 +66,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/api/v1/user/create", "/api/v1/login").permitAll()
                         .requestMatchers("/api/v1/batch/active").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/*/image/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority("SCOPE_ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority("SCOPE_ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/**").hasAuthority("SCOPE_ADMIN")

@@ -21,5 +21,5 @@ public interface BookRepository extends MongoRepository<Book, String> {
 
     List<Book> findBySemester(int semester);
 
-    List<Book> finadAllByBatchIdAndsemester(String bookId, int semester);
+    List<Book> findAllByBatchIdAndSemester(String bookId, int semester);
 }
