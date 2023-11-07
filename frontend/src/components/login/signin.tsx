@@ -1,12 +1,14 @@
 import { FaLock, FaUser } from "react-icons/fa";
 import { useRef } from "react";
-import { loginUser, storeKey } from "../services/authservice";
+import { currentUser, loginUser, returnHomeUrl, storeKey } from "../services/authservice";
 import { useToast } from "../ui/use-toast";
+import { useNavigate } from "react-router-dom";
 interface SigninProps {
   handleSignUpClick: () => void;
 }
 const Signin: React.FC<SigninProps> = ({ handleSignUpClick }) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -41,7 +43,22 @@ const Signin: React.FC<SigninProps> = ({ handleSignUpClick }) => {
       });
   }
 
-  function naviagateUserHome() {}
+  function naviagateUserHome() {
+    currentUser()
+      .then((response) => {
+        const url = returnHomeUrl(response.data);
+        navigate(url);
+      })
+      .catch((err) => {
+        const res = err.response.data;
+
+        toast({
+          title: res.title,
+          description: res.detail,
+          variant: "destructive",
+        });
+      });
+  }
   return (
     <div className="login-form-container sign-in">
       <form onSubmit={onSubmit}>

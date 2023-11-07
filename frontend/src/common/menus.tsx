@@ -6,7 +6,6 @@ import { FiBookOpen } from "react-icons/fi";
 import { RxAvatar } from "react-icons/rx";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
-import { BsBookmarkCheckFill } from "react-icons/bs";
 import { ImBooks } from "react-icons/im";
 
 export function getAdminMenus(): Menu[] {
@@ -56,11 +55,11 @@ export function getUserMenus(): Menu[] {
       icon: <ImBooks />,
       path: "/library/user/your-book",
     },
-    {
-      label: "Favorite",
-      icon: <BsBookmarkCheckFill />,
-      path: "/library/user/favorite",
-    },
+    // {
+    //   label: "Notification",
+    //   icon: <BsFillBellFill />,
+    //   path: "/library/user/notification",
+    // },
     {
       label: "Logout",
       icon: <RiLogoutBoxRLine />,

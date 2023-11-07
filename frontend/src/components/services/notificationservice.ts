@@ -15,8 +15,8 @@ export function markAsReadNotification(receiverUserId: string) {
     return axios.post(`${BASE_URL}/${receiverUserId}`);
 }
 
-export function getAllUnreadNotifications(receiverUserId: string) {
-    return axios.post(`${BASE_URL}/${receiverUserId}/unread`);
+export function getAllUnreadNotifications() {
+    return axios.get(`${BASE_URL}/user/unread`);
 }
 
 export function getAllReadNotifications(receiverUserId: string) {

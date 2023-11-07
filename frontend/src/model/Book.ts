@@ -8,6 +8,7 @@ export default interface Book {
   batchId: string;
   semester?: number;
   availableStock?: number;
+  image?: string;
   status?: string;
   createdDate?: string;
   createdBy?: string;

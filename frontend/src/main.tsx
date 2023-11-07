@@ -19,11 +19,12 @@ import IssueBook from "./components/admin/issuebook.tsx";
 import PendingApproval from "./components/admin/pendingapproval.tsx";
 import UserHome from "./components/user/home.tsx";
 import YourBook from "./components/user/yourbook.tsx";
-import Favorite from "./components/user/favorite.tsx";
 import DisplayBook from "./components/user/displaybook.tsx";
 import Login from "./components/login/login.tsx";
 import PrivateRoute from "./privateroute.tsx";
 import { isAuthenticate } from "./components/services/authservice.ts";
+import Logout from "./components/login/logout.tsx";
+import Notification from "./components/user/notification.tsx";
 
 const router = createBrowserRouter([
   {
@@ -55,49 +56,85 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <PrivateRoute isAuthenticated={isAuthenticate()}>
+          <PrivateRoute isAuthenticated={isAuthenticate}>
             <Dashboard />
           </PrivateRoute>
         ),
       },
       {
         path: "book-details",
-        element: <BookDetails />,
+        element: (
+          <PrivateRoute isAuthenticated={isAuthenticate}>
+            <BookDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "book-details/add/:bookId?",
-        element: <AddBook />,
+        element: (
+          <PrivateRoute isAuthenticated={isAuthenticate}>
+            <AddBook />
+          </PrivateRoute>
+        ),
       },
       {
         path: "batch-details",
-        element: <BatchDetails />,
+        element: (
+          <PrivateRoute isAuthenticated={isAuthenticate}>
+            <BatchDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "issue-book",
-        element: <IssueBook />,
+        element: (
+          <PrivateRoute isAuthenticated={isAuthenticate}>
+            <IssueBook />
+          </PrivateRoute>
+        ),
       },
       {
         path: "pending-approval",
-        element: <PendingApproval />,
+        element: (
+          <PrivateRoute isAuthenticated={isAuthenticate}>
+            <PendingApproval />
+          </PrivateRoute>
+        ),
       },
       {
         path: "user",
         children: [
           {
             path: "home",
-            element: <UserHome />,
+            element: (
+              <PrivateRoute isAuthenticated={isAuthenticate}>
+                <UserHome />
+              </PrivateRoute>
+            ),
           },
           {
             path: "home/:type",
-            element: <DisplayBook />,
+            element: (
+              <PrivateRoute isAuthenticated={isAuthenticate}>
+                <DisplayBook />
+              </PrivateRoute>
+            ),
           },
           {
             path: "your-book",
-            element: <YourBook />,
+            element: (
+              <PrivateRoute isAuthenticated={isAuthenticate}>
+                <YourBook />
+              </PrivateRoute>
+            ),
           },
           {
-            path: "favorite",
-            element: <Favorite />,
+            path: "notification",
+            element: (
+              <PrivateRoute isAuthenticated={isAuthenticate}>
+                <Notification />
+              </PrivateRoute>
+            ),
           },
         ],
       },
@@ -106,6 +143,10 @@ const router = createBrowserRouter([
   {
     path: "login",
     element: <Login />,
+  },
+  {
+    path: "logout",
+    element: <Logout />,
   },
 ]);
 

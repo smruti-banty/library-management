@@ -18,7 +18,7 @@ const IssueBook = () => {
     {
       label: "Mark Return",
       callBack: markReturn,
-    },
+    }
   ];
 
   function markReturn(id: string) {

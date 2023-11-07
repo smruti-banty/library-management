@@ -14,3 +14,7 @@ export function returnBook(bookIssueId: string) {
 export function allBookIssue() {
   return axios.get(`${BASE_URL}/all`);
 }
+
+export function allIssuedBookByUser() {
+  return axios.get(`${BASE_URL}/user`);
+}

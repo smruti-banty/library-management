@@ -2,6 +2,7 @@ import Batch from "@/model/Batch";
 import axios from "./api";
 
 const BASE_URL = "/batch";
+const noauth = { noauth: true };
 
 export function getAllBatch() {
   return axios.get(BASE_URL);
@@ -24,5 +25,5 @@ export function deleteBatch(batchId: string) {
 }
 
 export function getActiveBatches() {
-  return axios.get(`${BASE_URL}/active`);
+  return axios.get(`${BASE_URL}/active`, { headers: { ...noauth } });
 }
