@@ -3,6 +3,7 @@ import SideBar from "./components/ui/sidebar";
 import { Outlet, useLocation } from "react-router-dom";
 import { getAdminMenus, getUserMenus } from "./common/menus";
 import { Toaster } from "./components/ui/toaster";
+import Header from "./Header";
 function App() {
   const pathName = useLocation().pathname;
   const adminMenus = getAdminMenus();
@@ -13,9 +14,7 @@ function App() {
     <div className="flex">
       <SideBar menus={menus} active={pathName}></SideBar>
       <main className="flex-1">
-        <header className="bg-gray-50 dark:bg-gray-800 p-5 shadow-md">
-          <h1 className="text-right text-xl">👤</h1>
-        </header>
+        <Header/>
         <section className="p-10">
           <Outlet />
         </section>
