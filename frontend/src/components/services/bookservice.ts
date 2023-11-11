@@ -34,9 +34,11 @@ export function getActiveBooks() {
 export function getDemandingBooks() {
   return axios.get(`${BASE_URL}/demanding`);
 }
+
 export function getBookByCurrentUserBatch() {
   return axios.get(`${BASE_URL}/current/user/batch`)
 }
+
 export function uploadBookImage(bookId: string, formData: FormData) {
   return axios.post(`${BASE_URL}/${bookId}/upload/image`, formData, {
     headers: {
