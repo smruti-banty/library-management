@@ -1,10 +1,14 @@
 package com.lms.backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lms.backend.dto.AdminRequestDto;
@@ -116,6 +122,22 @@ public class UserController {
         return pendingUsers.stream().map(this::convertToUserResponseDto).toList();
     }
 
+    @PostMapping("/{userId}/upload/image")
+    public Map<String, String> uploadImage(@PathVariable String userId, @RequestParam("file") MultipartFile file) {
+        userService.saveUserImage(userId, file);
+        return Map.of("message", "Image uploaded");
+    }
+
+    @GetMapping("/{userId}/image/{version}")
+    public ResponseEntity<Resource> userImage(@PathVariable String userId) {
+        var file = userService.getImage(userId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(file);
+    }
+
     private UserResponseDto convertToUserResponseDto(User user) {
         return new UserResponseDto(
                 user.getUserId(),
@@ -124,6 +146,7 @@ public class UserController {
                 user.getEmail(),
                 user.getReferenceNumber(),
                 user.getProfilePic(),
-                user.getUserRole());
+                user.getUserRole(),
+                user.getVersion());
     }
 }

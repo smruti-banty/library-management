@@ -70,6 +70,7 @@ public class AuthenticationController {
                 user.getEmail(),
                 user.getReferenceNumber(),
                 user.getProfilePic(),
-                user.getUserRole());
+                user.getUserRole(),
+                user.getVersion());
     }
 }
