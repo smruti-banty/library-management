@@ -51,7 +51,7 @@ public class UserController {
         return convertToUserResponseDto(userService.createUser(user));
     }
 
-    @PostMapping("/createAdmin")
+    @PostMapping("/create/admin")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create admin", description = "create new admin")
     public UserResponseDto createAdmin(@RequestBody AdminRequestDto userRequestDto) {
@@ -139,14 +139,15 @@ public class UserController {
     }
 
     private UserResponseDto convertToUserResponseDto(User user) {
+        var image = "/user/%s/image/%d".formatted(user.getUserId(), user.getVersion());
+
         return new UserResponseDto(
                 user.getUserId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
                 user.getReferenceNumber(),
-                user.getProfilePic(),
-                user.getUserRole(),
-                user.getVersion());
+                image,
+                user.getUserRole());
     }
 }

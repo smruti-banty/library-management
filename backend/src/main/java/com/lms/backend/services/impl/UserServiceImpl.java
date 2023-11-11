@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String saveUserImage(String userId, MultipartFile file) {
         var user = userRepository.findById(userId).orElseThrow();
-        var location = storageService.store(file, "book/");
+        var location = storageService.store(file, "user/");
 
         user.setProfilePic(location);
         userRepository.save(user);

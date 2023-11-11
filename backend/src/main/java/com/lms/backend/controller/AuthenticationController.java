@@ -63,14 +63,16 @@ public class AuthenticationController {
     }
 
     private UserResponseDto convertToUserResponseDto(User user) {
+        var profilePic = user.getProfilePic();
+        var image = profilePic != null ? "/user/%s/image/%d".formatted(user.getUserId(), user.getVersion()) : null;
+        
         return new UserResponseDto(
                 user.getUserId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
                 user.getReferenceNumber(),
-                user.getProfilePic(),
-                user.getUserRole(),
-                user.getVersion());
+                image,
+                user.getUserRole());
     }
 }
