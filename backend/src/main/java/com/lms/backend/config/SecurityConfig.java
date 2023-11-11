@@ -64,9 +64,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v1/library-management-api-docs/**")
                         .permitAll()
-                        .requestMatchers("/api/v1/user/create", "/api/v1/login").permitAll()
+                        .requestMatchers("/api/v1/user/create/**", "/api/v1/login").permitAll()
                         .requestMatchers("/api/v1/batch/active").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/*/*/image/**").permitAll()
+                        .requestMatchers("/api/v1/user/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
                         .requestMatchers(HttpMethod.POST, "/api/v1/**").hasAuthority("SCOPE_ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/**").hasAuthority("SCOPE_ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/**").hasAuthority("SCOPE_ADMIN")

@@ -24,6 +24,7 @@ const DataTable: React.FC<DataTableProps> = ({
     "createdDate",
     "updatedBy",
     "updatedDate",
+    "issuedBy"
   ]);
 
   let headings = Object.keys(data[0]);

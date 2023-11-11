@@ -2,6 +2,9 @@ package com.lms.backend.services;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.lms.backend.model.User;
 
 public interface UserService {
@@ -24,4 +27,8 @@ public interface UserService {
     User approveUser(String userId);
 
     List<User> findAllPendingUser();
+
+    String saveUserImage(String bookId, MultipartFile file);
+
+    Resource getImage(String bookId);
 }

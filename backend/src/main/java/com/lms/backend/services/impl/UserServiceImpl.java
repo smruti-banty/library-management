@@ -3,13 +3,16 @@ package com.lms.backend.services.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lms.backend.constants.UserRole;
 import com.lms.backend.constants.UserStatus;
 import com.lms.backend.model.User;
 import com.lms.backend.repository.UserRepository;
+import com.lms.backend.services.StorageService;
 import com.lms.backend.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final StorageService storageService;
 
     @Override
     public User createUser(User user) {
@@ -51,7 +55,7 @@ public class UserServiceImpl implements UserService {
         if (isExists) {
             throw new RuntimeException("Account already exists");
         }
-        
+
         var encodePassword = passwordEncoder.encode(user.getPassword());
         var userId = UUID.randomUUID().toString();
         var userRole = UserRole.ADMIN;
@@ -121,5 +125,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllPendingUser() {
         return userRepository.findByUserStatus(UserStatus.PENDING_APPROVAL);
+    }
+
+    @Override
+    public String saveUserImage(String userId, MultipartFile file) {
+        var user = userRepository.findById(userId).orElseThrow();
+        var location = storageService.store(file, "user/");
+
+        user.setProfilePic(location);
+        userRepository.save(user);
+
+        return location;
+    }
+
+    @Override
+    public Resource getImage(String bookId) {
+        var book = userRepository.findById(bookId).orElseThrow();
+        return storageService.load(book.getProfilePic());
     }
 }
