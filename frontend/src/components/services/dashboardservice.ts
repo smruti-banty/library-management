@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from "./api";
 
-const BASE_URL = "http://localhost:1205/api/v1/admin/dashboard";
+const BASE_URL = "/admin/dashboard";
 
 export function getDashboardDetails() {
   return axios.get(BASE_URL);

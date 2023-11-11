@@ -7,9 +7,12 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.lms.backend.constants.BookIssueStatus;
+import com.lms.backend.dto.TransactionResponseDto;
 import com.lms.backend.model.BookIssue;
 import com.lms.backend.model.Transaction;
+import com.lms.backend.repository.BookRepository;
 import com.lms.backend.repository.TransactionRepository;
+import com.lms.backend.repository.UserRepository;
 import com.lms.backend.services.TransactionService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
+    private final BookRepository bookRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Transaction createTransaction(BookIssue bookIssue) {
@@ -55,8 +60,33 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getLastFiveTransaction() {
+    public List<TransactionResponseDto> getLastFiveTransaction() {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        return transactionRepository.findTop5ByCreatedDateBeforeOrderByCreatedDateDesc(currentDateTime);
+        var transactions = transactionRepository.findTop5ByCreatedDateBeforeOrderByCreatedDateDesc(currentDateTime);
+
+        return transactions.stream().map(this::convertTransactionDto).toList();
+    }
+
+    private TransactionResponseDto convertTransactionDto(Transaction transaction) {
+        var bookReferenceNumber = transaction.getBookReferenceNumber();
+        var book = bookRepository.findByReferenceNumber(bookReferenceNumber).orElseThrow();
+
+        var adminId = transaction.getAdminId();
+        var admin = userRepository.findByReferenceNumber(adminId).orElseThrow();
+        var adminName = "%s %s".formatted(admin.getFirstName(), admin.getLastName());
+
+        return new TransactionResponseDto(
+                book.getBookName(),
+                book.getAuthor(),
+                bookReferenceNumber,
+                adminName,
+                transaction.getStudentId(),
+                transaction.getStatus().name(),
+                transaction.getUpdatedDate());
+    }
+
+    @Override
+    public List<Transaction> getDemandindBook() {
+        return transactionRepository.findTransactionsForBookReferenceNumbersWithAtLeastTwoEntries();
     }
 }

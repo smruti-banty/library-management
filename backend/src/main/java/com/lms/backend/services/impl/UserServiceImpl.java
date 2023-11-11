@@ -3,6 +3,7 @@ package com.lms.backend.services.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lms.backend.constants.UserRole;
@@ -16,14 +17,24 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Override
     public User createUser(User user) {
+        var referenceNumber = user.getReferenceNumber();
+        var isExists = userRepository.existsByReferenceNumber(referenceNumber);
+
+        if (isExists) {
+            throw new RuntimeException("Account already exists");
+        }
+
+        var encodePassword = passwordEncoder.encode(user.getPassword());
         var userId = UUID.randomUUID().toString();
         var userRole = UserRole.USER;
         var userStatus = UserStatus.PENDING_APPROVAL;
 
+        user.setPassword(encodePassword);
         user.setUserId(userId);
         user.setUserRole(userRole);
         user.setUserStatus(userStatus);
@@ -34,10 +45,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createAdmin(User user) {
+        var referenceNumber = user.getReferenceNumber();
+        var isExists = userRepository.existsByReferenceNumber(referenceNumber);
+
+        if (isExists) {
+            throw new RuntimeException("Account already exists");
+        }
+        
+        var encodePassword = passwordEncoder.encode(user.getPassword());
         var userId = UUID.randomUUID().toString();
         var userRole = UserRole.ADMIN;
         var userStatus = UserStatus.ACTIVE;
 
+        user.setPassword(encodePassword);
         user.setUserId(userId);
         user.setUserRole(userRole);
         user.setUserStatus(userStatus);
@@ -93,7 +113,7 @@ public class UserServiceImpl implements UserService {
     public User approveUser(String userId) {
         var user = userRepository.findById(userId).orElseThrow();
         user.setUserStatus(UserStatus.ACTIVE);
-        
+
         userRepository.save(user);
         return user;
     }

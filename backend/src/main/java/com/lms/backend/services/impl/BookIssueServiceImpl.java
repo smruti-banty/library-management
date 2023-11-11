@@ -17,6 +17,7 @@ import com.lms.backend.model.Book;
 import com.lms.backend.model.BookIssue;
 import com.lms.backend.repository.BookIssueRepository;
 import com.lms.backend.repository.BookRepository;
+import com.lms.backend.repository.UserRepository;
 import com.lms.backend.services.BookIssueService;
 import com.lms.backend.services.TransactionService;
 
@@ -27,10 +28,18 @@ import lombok.RequiredArgsConstructor;
 public class BookIssueServiceImpl implements BookIssueService {
     private final BookIssueRepository bookIssueRepository;
     private final BookRepository bookRepository;
+    private final UserRepository userRepository;
     private final TransactionService transactionService;
 
     @Override
     public BookIssue issueBook(BookIssue bookIssue) {
+        var referenceNumber = bookIssue.getStudentReferenceNumber();
+        var student = userRepository.existsByReferenceNumber(referenceNumber);
+
+        if (!student) {
+            throw new RuntimeException("Student not found");
+        }
+
         var bookIssueId = UUID.randomUUID().toString();
         var issueStatus = BookIssueStatus.ISSUED;
         var now = LocalDateTime.now();
@@ -85,13 +94,19 @@ public class BookIssueServiceImpl implements BookIssueService {
     public List<BookIssueResponseDto> getAllIssuedBook() {
         var sort = Sort.by(Direction.DESC, "issuedDate");
         var bookIssues = bookIssueRepository.findAll(sort);
-        
+
         return getResponse(bookIssues);
     }
 
     public List<BookIssueResponseDto> getAllIssuedBook(BookIssueStatus status) {
         var bookIssues = bookIssueRepository.findByStatus(status);
         return getResponse(bookIssues);
+    }
+
+    @Override
+    public List<BookIssueResponseDto> getAllIssuedBook(String referenceNumber) {
+        var books = bookIssueRepository.findByStudentReferenceNumber(referenceNumber);
+        return getResponse(books);
     }
 
     private List<BookIssueResponseDto> getResponse(List<BookIssue> bookIssues) {

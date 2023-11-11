@@ -6,7 +6,7 @@ public record BookRequestDto(
                 String description,
                 String author,
                 String shelfNumber,
-                String batchName,
+                String batchId,
                 int semester) {
 }
 

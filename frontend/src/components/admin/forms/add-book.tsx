@@ -1,9 +1,11 @@
+import { getActiveBatches } from "@/components/services/batchservice";
 import {
   addBook,
   getBook,
   upadateBook,
 } from "@/components/services/bookservice";
 import { useToast } from "@/components/ui/use-toast";
+import Batch from "@/model/Batch";
 import Book from "@/model/Book";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -14,12 +16,26 @@ const AddBook = () => {
   const { toast } = useToast();
   const headingMessage = bookId ? "Update" : "Add";
   const toastMessage = bookId ? "Book updated" : "Book added";
+  const [batchs, setBatchs] = useState<Batch[]>([]);
+  const [semester, setSemester] = useState(0);
+  useEffect(() => {
+    try {
+      getActiveBatches().then((response) => {
+        setBatchs(response.data);
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
 
   const [book, setBook] = useState<Book>({
     bookName: "",
     author: "",
     description: "",
     referenceNumber: "",
+    shelfNumber: "",
+    batchId: "",
+    semester: 0,
   });
 
   useEffect(() => {
@@ -34,12 +50,26 @@ const AddBook = () => {
     bookNameRef.current!.value = book.bookName;
     referenceNumberRef.current!.value = book.referenceNumber;
     authorRef.current!.value = book.author;
-    descriptionRef.current!.value = book.description
-  }, [book.author, book.bookName, book.description, book.referenceNumber]);
+    shelfNumberRef.current!.value = book.shelfNumber;
+    batchNameRef.current!.value = book.batchId;
+    semesterRef.current!.value = String(book.semester);
+    authorRef.current!.value = book.author;
+    descriptionRef.current!.value = book.description;
+
+    if (book.batchId !== "") {
+      const batch = batchs.find((batch) => batch.batchId === book.batchId);
+      if (batch) {
+        setSemester(batch.totalSemester);
+      }
+    }
+  }, [batchs, book.author, book.batchId, book.bookName, book.description, book.referenceNumber, book.semester, book.shelfNumber]);
 
   const bookNameRef = useRef<HTMLInputElement>(null);
   const referenceNumberRef = useRef<HTMLInputElement>(null);
   const authorRef = useRef<HTMLInputElement>(null);
+  const shelfNumberRef = useRef<HTMLInputElement>(null);
+  const batchNameRef = useRef<HTMLSelectElement>(null);
+  const semesterRef = useRef<HTMLSelectElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -47,9 +77,20 @@ const AddBook = () => {
     const bookName = bookNameRef.current?.value || "";
     const referenceNumber = referenceNumberRef.current?.value || "";
     const author = authorRef.current?.value || "";
+    const shelfNumber = shelfNumberRef.current?.value || "";
+    const batchName = batchNameRef.current?.value || "";
+    const semester = semesterRef.current?.value || "";
     const description = descriptionRef.current?.value || "";
 
-    const book: Book = { bookName, referenceNumber, author, description };
+    const book: Book = {
+      bookName,
+      referenceNumber,
+      author,
+      description,
+      shelfNumber,
+      batchId: batchName,
+      semester: Number(semester),
+    };
 
     function afterApiCall() {
       toast({
@@ -69,6 +110,16 @@ const AddBook = () => {
         title: "Something wen wrong!",
         description: `${err}`,
       });
+    }
+  }
+
+  function onBatchChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const value = e.target.value;
+    if (value !== "") {
+      const batch = batchs.find((batch) => batch.batchId === value);
+      if (batch) {
+        setSemester(batch.totalSemester);
+      }
     }
   }
 
@@ -114,11 +165,55 @@ const AddBook = () => {
             />
           </div>
           <div className="mb-5">
+            <label className={styleLabel}>Shelf number</label>
+            <input
+              className={styleInput}
+              id="shelfNumber"
+              type="text"
+              placeholder="Shelf number"
+              ref={shelfNumberRef}
+            />
+          </div>
+          <div className="mb-5">
+            <label className={styleLabel}>Select batch</label>
+            <select
+              name="batchName"
+              id="batchName"
+              className={styleInput}
+              ref={batchNameRef}
+              onChange={onBatchChange}
+            >
+              <option value="">--select--</option>
+              {batchs.map((batch) => (
+                <option value={batch.batchId}>{batch.batchName}</option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-5">
+            <label className={styleLabel}>Select semester</label>
+            <select
+              name="semester"
+              id="batchName"
+              className={styleInput}
+              ref={semesterRef}
+            >
+              {semester == 0 ? (
+                <option value="0">0</option>
+              ) : (
+                Array.from({ length: semester }, (_, index) => (
+                  <option key={index} value={index + 1}>
+                    {index + 1}
+                  </option>
+                ))
+              )}
+            </select>
+          </div>
+          <div className="mb-5">
             <label className={styleLabel}>Book description</label>
             <textarea
               className={styleInput}
               id="description"
-              placeholder="Author name"
+              placeholder="Book description"
               ref={descriptionRef}
             />
           </div>

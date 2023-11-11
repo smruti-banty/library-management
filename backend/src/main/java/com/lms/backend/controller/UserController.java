@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lms.backend.dto.AdminRequestDto;
 import com.lms.backend.dto.UserRequestDto;
 import com.lms.backend.dto.UserResponseDto;
 import com.lms.backend.model.User;
@@ -47,7 +48,7 @@ public class UserController {
     @PostMapping("/createAdmin")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create admin", description = "create new admin")
-    public UserResponseDto createAdmin(@RequestBody UserRequestDto userRequestDto) {
+    public UserResponseDto createAdmin(@RequestBody AdminRequestDto userRequestDto) {
         var user = new User();
         BeanUtils.copyProperties(userRequestDto, user);
         return convertToUserResponseDto(userService.createAdmin(user));
@@ -123,9 +124,6 @@ public class UserController {
                 user.getEmail(),
                 user.getReferenceNumber(),
                 user.getProfilePic(),
-                user.getUpdatedDate(),
-                user.getCreatedDate(),
-                user.getCreatedBy(),
-                user.getUpdatedBy());
+                user.getUserRole());
     }
 }

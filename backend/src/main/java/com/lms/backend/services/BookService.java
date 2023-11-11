@@ -2,6 +2,10 @@ package com.lms.backend.services;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.lms.backend.dto.BookResponseDto;
 import com.lms.backend.model.Book;
 
 public interface BookService {
@@ -13,7 +17,7 @@ public interface BookService {
 
     Book getBookById(String bookId);
 
-    List<Book> getBooks();
+    List<BookResponseDto> getBooks();
 
     List<Book> getAllActiveBooks();
 
@@ -23,10 +27,17 @@ public interface BookService {
 
     Book bookOutOfStock(String bookId);
 
-
     List<Book> getBookByShelfNumber(String shelfNumber);
 
-    List<Book> getBookByBatchName(String batchName);
+    List<Book> getBookByBatchId(String batchId);
 
     List<Book> getBookBySemester(int semester);
+
+    String saveBookImage(String bookId, MultipartFile file);
+
+    Resource getImage(String bookId);
+
+    List<BookResponseDto> getBooksByBatch(String batchId, int semester);
+
+    List<BookResponseDto> getMostDemandingBooks();
 }

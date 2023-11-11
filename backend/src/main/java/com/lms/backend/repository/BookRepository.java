@@ -17,7 +17,9 @@ public interface BookRepository extends MongoRepository<Book, String> {
 
     List<Book> findByShelfNumber(String shelfNumber);
 
-    List<Book> findByBatchName(String batchName);
+    List<Book> findByBatchId(String batchId);
 
     List<Book> findBySemester(int semester);
+
+    List<Book> findAllByBatchIdAndSemester(String bookId, int semester);
 }

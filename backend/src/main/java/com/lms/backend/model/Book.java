@@ -37,7 +37,7 @@ public class Book {
     private String image;
     private String referenceNumber;
     private String shelfNumber;
-    private String batchName;
+    private String batchId;
     private int semester;
     private int availableStock;
     @Field(targetType = FieldType.STRING)

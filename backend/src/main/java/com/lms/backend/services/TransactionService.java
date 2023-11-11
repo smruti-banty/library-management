@@ -2,6 +2,7 @@ package com.lms.backend.services;
 
 import java.util.List;
 
+import com.lms.backend.dto.TransactionResponseDto;
 import com.lms.backend.model.BookIssue;
 import com.lms.backend.model.Transaction;
 
@@ -13,5 +14,7 @@ public interface TransactionService {
 
     void updateTransaction(String bookIssueId);
 
-    List<Transaction> getLastFiveTransaction();
+    List<TransactionResponseDto> getLastFiveTransaction();
+    
+    List<Transaction> getDemandindBook();
 }

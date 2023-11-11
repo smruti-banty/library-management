@@ -1,7 +1,7 @@
 import Notification from "@/model/Notification";
-import axios from "axios";
+import axios from "./api";
 
-const BASE_URL = "http://localhost:1205/api/v1/notification";
+const BASE_URL = "/notification";
 
 export function getAllNotification() {
     return axios.get(BASE_URL);
@@ -15,8 +15,8 @@ export function markAsReadNotification(receiverUserId: string) {
     return axios.post(`${BASE_URL}/${receiverUserId}`);
 }
 
-export function getAllUnreadNotifications(receiverUserId: string) {
-    return axios.post(`${BASE_URL}/${receiverUserId}/unread`);
+export function getAllUnreadNotifications() {
+    return axios.get(`${BASE_URL}/user/unread`);
 }
 
 export function getAllReadNotifications(receiverUserId: string) {

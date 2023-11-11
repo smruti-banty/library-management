@@ -5,6 +5,8 @@ import { LuBook } from "react-icons/lu";
 import { FiBookOpen } from "react-icons/fi";
 import { RxAvatar } from "react-icons/rx";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { FaHome } from "react-icons/fa";
+import { ImBooks } from "react-icons/im";
 
 export function getAdminMenus(): Menu[] {
   return [
@@ -33,6 +35,31 @@ export function getAdminMenus(): Menu[] {
       icon: <RxAvatar />,
       path: "/library/pending-approval",
     },
+    {
+      label: "Logout",
+      icon: <RiLogoutBoxRLine />,
+      path: "/logout",
+    },
+  ];
+}
+
+export function getUserMenus(): Menu[] {
+  return [
+    {
+      label: "Home",
+      icon: <FaHome />,
+      path: "/library/user/home",
+    },
+    {
+      label: "Your book",
+      icon: <ImBooks />,
+      path: "/library/user/your-book",
+    },
+    // {
+    //   label: "Notification",
+    //   icon: <BsFillBellFill />,
+    //   path: "/library/user/notification",
+    // },
     {
       label: "Logout",
       icon: <RiLogoutBoxRLine />,

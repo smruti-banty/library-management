@@ -32,15 +32,21 @@ const BookIssueModal: React.FC<BookIssueProps> = ({
       bookReferenceNumber,
     };
 
-    try {
-      issueBook(bookIssue).then(() => {
+    issueBook(bookIssue)
+      .then(() => {
         updateBookIssueData();
         setHidden(true);
         toast({ title: "Book issued" });
+      })
+      .catch((err) => {
+        const res = err.response.data;
+
+        toast({
+          title: res.title,
+          description: res.detail,
+          variant: "destructive",
+        });
       });
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   const styleInput =

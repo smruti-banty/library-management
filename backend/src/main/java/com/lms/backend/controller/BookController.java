@@ -1,10 +1,15 @@
 package com.lms.backend.controller;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lms.backend.dto.BookRequestDto;
+import com.lms.backend.dto.BookResponseDto;
 import com.lms.backend.model.Book;
 import com.lms.backend.services.BookService;
+import com.lms.backend.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,6 +42,21 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Book controller", description = "Manage books")
 public class BookController {
     private final BookService bookService;
+    private final UserService userService;
+
+    @GetMapping("/current/user/batch")
+    @Operation(summary = "Get books of batch", description = "Get current user book by batch")
+    public List<BookResponseDto> getBooksByBatch(Principal principal) {
+        var referenceNumber = principal.getName();
+        var user = userService.getUserByReferenceNumber(referenceNumber);
+        return bookService.getBooksByBatch(user.getBatchId(), user.getSemester());
+    }
+
+    @GetMapping("/demanding")
+    @Operation(summary = "Demanding book", description = "Get most demanding book")
+    public List<BookResponseDto> demandingBooks() {
+        return bookService.getMostDemandingBooks();
+    }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
@@ -65,7 +88,7 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get books", description = "To retrive all books data")
-    public List<Book> getBooks() {
+    public List<BookResponseDto> getBooks() {
         return bookService.getBooks();
     }
 
@@ -81,11 +104,11 @@ public class BookController {
         return bookService.getAllInactiveBooks();
     }
 
-    @PatchMapping("/{bookId}/stock")
+    @PatchMapping("/{bookId}/stock/{stock}")
     @Operation(summary = "update book stock", description = "Update available stock of book")
     @ApiResponse(responseCode = "200", description = "On successful update")
     @ApiResponse(responseCode = "500", description = "Book not found", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
-    public Book updateStock(@PathVariable String bookId, @RequestParam int stock) {
+    public Book updateStock(@PathVariable String bookId, @PathVariable int stock) {
         return bookService.updateStock(bookId, stock);
     }
 
@@ -109,10 +132,10 @@ public class BookController {
         return bookService.getBookByShelfNumber(shelfNumber);
     }
 
-    @GetMapping("/{batchName}/batch")
+    @GetMapping("/{batchId}/batch")
     @Operation(summary = "Get books by batch name", description = "To retrive all the  books for the given batch")
-    public List<Book> getBooksByBatchName(@PathVariable String batchName) {
-        return bookService.getBookByBatchName(batchName);
+    public List<Book> getBooksByBatchName(@PathVariable String batchId) {
+        return bookService.getBookByBatchId(batchId);
     }
 
     @GetMapping("/{semester}/semester")
@@ -121,4 +144,19 @@ public class BookController {
         return bookService.getBookBySemester(semester);
     }
 
+    @PostMapping("/{bookId}/upload/image")
+    public Map<String, String> uploadImage(@PathVariable String bookId, @RequestParam("file") MultipartFile file) {
+        bookService.saveBookImage(bookId, file);
+        return Map.of("message", "Image uploaded");
+    }
+
+    @GetMapping("/{bookId}/image/{version}")
+    public ResponseEntity<Resource> bookImage(@PathVariable String bookId) {
+        var file = bookService.getImage(bookId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(file);
+    }
 }
